@@ -9,6 +9,15 @@ const roboto = Roboto({
 });
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1440,
+    },
+  },
   typography: {
     fontFamily: roboto.style.fontFamily,
   },
@@ -18,6 +27,24 @@ const theme = createTheme({
         body: {
           margin: 0,
         },
+      },
+    },
+  },
+  custom: {
+    width: {
+      maxContentWidth: 1440,
+      logoWidth: {
+        xl: 252,
+        sm: 130,
+      },
+    },
+    spacing: {
+      content: {
+        xs: 15,
+        sm: 15,
+        md: 30,
+        lg: 30,
+        xl: 30,
       },
     },
   },

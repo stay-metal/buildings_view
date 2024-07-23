@@ -183,13 +183,13 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
       <Slider ref={slider} {...settings}>
         {children}
       </Slider>
-      {images && (
+      {/* {images && (
         <Thumbnail
           images={images}
           slider={slider.current}
           activeIndex={activeIndex}
         />
-      )}
+      )} */}
     </Box>
   );
 };

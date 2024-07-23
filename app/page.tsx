@@ -1,23 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
-import { Link } from "@mui/material";
-import {
-  Box,
-  Container,
-  Typography,
-  IconButton,
-  AppBar,
-  Toolbar,
-  Button,
-  Grid,
-} from "@mui/material";
-import Image from "next/image";
+import { Box } from "@mui/material";
 import Carousel from "@/components/Carousel";
-
-import img from "/home_image.png";
-import Logo from "@/components/ui/Logo";
-import FullSreen from "@/components/ui/FullScreen";
-import Share from "@/components/ui/Share";
 
 export default function Page() {
   const property = {

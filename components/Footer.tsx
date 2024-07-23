@@ -1,24 +1,24 @@
-"use client";
 import { Box } from "@mui/material";
 import { SxContainer } from "./StyledComponents";
 import theme from "@/styles/theme";
 
-export function Header({ children }: { children: React.ReactNode }) {
+export default function Footer({ children }: { children: React.ReactNode }) {
   return (
     <SxContainer
       sx={{
-        position: "absolute",
+        position: "fixed",
         zIndex: "1000",
         left: "50%",
         transform: "translateX(-50%)",
+        bottom: `0`,
       }}
     >
       <Box
         sx={{
-          height: "50px",
+          height: "auto",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "center",
         }}
       >
         {children}
