@@ -6,6 +6,8 @@ export const slides = [
     description:
       "Introduction text. Reshape the city tower and it’s surrounding area. Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     link: "link",
+    opacity: "0.9",
+    blur: "1",
     thumbUrl: "https://via.placeholder.com/82x82.png",
     slideUrl: "https://via.placeholder.com/1920x1024",
   },

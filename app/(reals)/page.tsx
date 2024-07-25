@@ -7,7 +7,7 @@ import slides from "@/data/slides";
 export default function Page() {
   const { mainSliderRef, thumbSliderRef } = useSlider();
 
-  const data = slides.map(({ id, slideUrl: url }) => ({ id, url }));
+  // const data = slides.map(({ id, slideUrl: url }) => ({ id, url }));
   const property = {
     imageUrl: "https://bit.ly/2Z4KKcF",
     imageAlt: "Rear view of modern home with pool",
@@ -28,13 +28,14 @@ export default function Page() {
         // height={"100vh"}
       >
         <Carousel mainSliderRef={mainSliderRef} thumbSliderRef={thumbSliderRef}>
-          {data.map((slide, id) => (
+          {slides.map((slide, id) => (
             <Box height="100vh" key={slide.id}>
               <img
-                src={slide.url}
+                src={slide.slideUrl}
                 alt="Slide 2"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
+              {/* {(slide.type && slide.type==='text') ? :} */}
             </Box>
           ))}
         </Carousel>
