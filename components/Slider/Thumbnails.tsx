@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import Slider from "react-slick";
 import { useSlider } from "@/app/(reals)/SliderContext";
 import theme from "@/styles/theme";
+import slides from "@/data/slides";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,10 +13,11 @@ import "slick-carousel/slick/slick-theme.css";
 import PrevThumbArrow from "./PrevThumbArrow";
 import NextThumbArrow from "./NextThumbArrow";
 
-export function Thumbnails() {
+export function Thumbnails({ isFullScreen }: { isFullScreen: boolean }) {
+  const data = slides;
+
   const { mainSliderRef, thumbSliderRef, activeSlide, setActiveSlide } =
     useSlider();
-  const sliderRef = useRef<Slider | null>(null);
 
   const next = () => {
     if (mainSliderRef.current && thumbSliderRef.current) {
@@ -34,23 +36,9 @@ export function Thumbnails() {
   const [isHovered, setIsHovered] = useState(false);
   const [hoverdThumb, setHoverdThumb] = useState(-1);
 
-  const thumbsList = [
-    { id: 1, url: "/placeholders/82x82.png" },
-    { id: 2, url: "/placeholders/82x82.png" },
-    { id: 3, url: "/placeholders/82x82.png" },
-    { id: 4, url: "/placeholders/82x82.png" },
-    { id: 5, url: "/placeholders/82x82.png" },
-    { id: 6, url: "/placeholders/82x82.png" },
-    { id: 7, url: "/placeholders/82x82.png" },
-    { id: 8, url: "/placeholders/82x82.png" },
-    { id: 9, url: "/placeholders/82x82.png" },
-    { id: 10, url: "/placeholders/82x82.png" },
-    { id: 11, url: "/placeholders/82x82.png" },
-    { id: 12, url: "/placeholders/82x82.png" },
-    { id: 13, url: "/placeholders/82x82.png" },
-    { id: 14, url: "/placeholders/82x82.png" },
-    { id: 15, url: "/placeholders/82x82.png" },
-  ];
+  // Get all images from data file
+
+  const thumbDetails = data.map(({ id, thumbUrl: url }) => ({ id, url }));
 
   const handleThumbnailClick = (index: number) => {
     if (mainSliderRef.current) {
@@ -97,7 +85,7 @@ export function Thumbnails() {
         alignItems: "center",
         marginLeft: "auto",
         marginRight: "auto",
-        transition: "transform 0.3s ease",
+        transition: "0.2s ease",
         "&:hover": {
           transform: "scale(1.15)",
         },
@@ -111,6 +99,7 @@ export function Thumbnails() {
         [theme.breakpoints.down("sm")]: {
           gap: "10px",
         },
+        opacity: !isFullScreen ? "1" : "0",
       }}
     >
       <PrevThumbArrow onClick={prev} />
@@ -129,7 +118,7 @@ export function Thumbnails() {
         }}
       >
         <Slider {...settings} className="sx-thumbnails__container">
-          {thumbsList.map((thumb, index) => (
+          {thumbDetails.map((thumb, index) => (
             <Box
               key={thumb.id}
               onClick={() => handleThumbnailClick(index)}

@@ -61,6 +61,14 @@ export const SxCircleButton = styled("button")(
         background: rgba(30, 30, 30, 0.50);
         transform: scale(1.15)
       }
+            &:focus {
+        border: none;
+        transform: none
+      }
+            &:active {
+        border: none;
+        transform: none
+      }
     ${(theme.breakpoints.down("sm"), theme.breakpoints.down("md"))} {
         width: 25px;
         height: 25px;

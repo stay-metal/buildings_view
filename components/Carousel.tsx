@@ -18,17 +18,19 @@ const NextArrow = (props: any) => {
     <IconButton
       aria-label="next-slide"
       onClick={onClick}
+      disableRipple
       sx={{
         position: "absolute",
         right: 0,
         top: "50%",
         transform: "translateY(-50%)",
         zIndex: 1,
+        transition: "0.2s ease",
         backgroundColor: "transparent",
         height: "100vh",
         width: "11.11%", // 1/9 of the width
         display: "flex",
-        opacity: 0.1,
+        opacity: 0,
         "&:hover": { opacity: 0.8, backgroundColor: "transparent" },
         "&:active": { opacity: 0.8 },
       }}
@@ -44,18 +46,20 @@ const PrevArrow = (props: any) => {
     <IconButton
       aria-label="prev-slide"
       onClick={onClick}
+      disableRipple
       sx={{
         position: "absolute",
         left: 0,
         top: "50%",
         transform: "translateY(-50%)",
+        transition: "0.2s ease",
         zIndex: 1,
         backgroundColor: "transparent",
         height: "100vh",
         width: "11.11%", // 1/9 of the width
         display: "flex",
         borderRadius: "0",
-        opacity: 0.1,
+        opacity: 0,
         "&:hover": { opacity: 0.8, backgroundColor: "transparent" },
         "&:active": { opacity: 0.8 },
       }}

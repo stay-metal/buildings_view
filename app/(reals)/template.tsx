@@ -6,19 +6,28 @@ import Share from "@/components/Buttons/Share";
 import Footer from "@/components/Footer";
 import { Thumbnails } from "@/components/Slider/Thumbnails";
 import { SliderProvider } from "./SliderContext";
+import { useState } from "react";
 
 export default function Template({ children }: { children: React.ReactNode }) {
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
+  function handleFullScreenClick() {
+    setIsFullScreen(!isFullScreen);
+  }
   return (
     <>
       <SliderProvider>
         <Header>
-          <FullSreen />
+          <FullSreen
+            onClick={handleFullScreenClick}
+            isFullScreen={isFullScreen}
+          />
           <Logo />
-          <Share />
+          <Share isFullScreen={isFullScreen} />
         </Header>
         {children}
         <Footer>
-          <Thumbnails />
+          <Thumbnails isFullScreen={isFullScreen} />
         </Footer>
       </SliderProvider>
     </>

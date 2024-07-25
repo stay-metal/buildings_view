@@ -2,10 +2,12 @@
 import { Box } from "@mui/material";
 import Carousel from "@/components/Carousel";
 import { useSlider } from "./SliderContext";
+import slides from "@/data/slides";
 
 export default function Page() {
   const { mainSliderRef, thumbSliderRef } = useSlider();
 
+  const data = slides.map(({ id, slideUrl: url }) => ({ id, url }));
   const property = {
     imageUrl: "https://bit.ly/2Z4KKcF",
     imageAlt: "Rear view of modern home with pool",
@@ -26,27 +28,15 @@ export default function Page() {
         // height={"100vh"}
       >
         <Carousel mainSliderRef={mainSliderRef} thumbSliderRef={thumbSliderRef}>
-          <Box height="100vh">
-            <img
-              src="https://via.placeholder.com/1920x1080"
-              alt="Slide 1"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-          </Box>
-          <Box height="100vh">
-            <img
-              src="https://via.placeholder.com/1920x1080"
-              alt="Slide 2"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-          </Box>
-          <Box height="100vh">
-            <img
-              src="https://via.placeholder.com/1920x1080"
-              alt="Slide 3"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-          </Box>
+          {data.map((slide, id) => (
+            <Box height="100vh" key={slide.id}>
+              <img
+                src={slide.url}
+                alt="Slide 2"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            </Box>
+          ))}
         </Carousel>
       </Box>
     </>
