@@ -1,8 +1,11 @@
 "use client";
 import { Box } from "@mui/material";
 import Carousel from "@/components/Carousel";
+import { useSlider } from "./SliderContext";
 
 export default function Page() {
+  const { mainSliderRef, thumbSliderRef } = useSlider();
+
   const property = {
     imageUrl: "https://bit.ly/2Z4KKcF",
     imageAlt: "Rear view of modern home with pool",
@@ -22,7 +25,7 @@ export default function Page() {
         // // bgcolor={"black"}
         // height={"100vh"}
       >
-        <Carousel>
+        <Carousel mainSliderRef={mainSliderRef} thumbSliderRef={thumbSliderRef}>
           <Box height="100vh">
             <img
               src="https://via.placeholder.com/1920x1080"

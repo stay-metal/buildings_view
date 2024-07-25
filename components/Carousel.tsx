@@ -10,10 +10,7 @@ import {
   FaArrowLeft,
   FaArrowRight,
 } from "react-icons/fa";
-
-interface CarouselProps {
-  children: ReactNode[];
-}
+import { useSlider } from "@/app/(reals)/SliderContext";
 
 const NextArrow = (props: any) => {
   const { onClick } = props;
@@ -68,11 +65,19 @@ const PrevArrow = (props: any) => {
   );
 };
 
+interface CarouselProps {
+  mainSliderRef: React.MutableRefObject<Slider | null>;
+  thumbSliderRef: React.MutableRefObject<Slider | null>;
+  children: React.ReactNode;
+}
+
 const Carousel: React.FC<CarouselProps> = ({ children }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const slider = React.useRef<Slider>(null);
+  const { mainSliderRef, thumbSliderRef, activeSlide, setActiveSlide } =
+    useSlider();
 
   const settings = {
+    asNavFor: thumbSliderRef.current || undefined,
+    ref: mainSliderRef,
     dots: true,
     infinite: true,
     speed: 500,
@@ -81,7 +86,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    beforeChange: (current: number, next: number) => setActiveIndex(next),
+    beforeChange: (current, next) => setActiveSlide(next),
   };
 
   const images = React.Children.map(children, (child) => {
@@ -93,16 +98,19 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
 
   return (
     <Box width="100vw" height="100vh" overflow="hidden" position="relative">
-      <Slider ref={slider} {...settings}>
-        {children}
+      <Slider {...settings}>
+        {" "}
+        {React.Children.map(children, (child, index) => (
+          <Box
+            sx={{
+              border: index === activeSlide ? "2px solid red" : "none",
+              height: "100%",
+            }}
+          >
+            {child}
+          </Box>
+        ))}
       </Slider>
-      {/* {images && (
-        <Thumbnail
-          images={images}
-          slider={slider.current}
-          activeIndex={activeIndex}
-        />
-      )} */}
     </Box>
   );
 };

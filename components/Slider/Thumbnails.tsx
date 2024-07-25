@@ -2,6 +2,9 @@ import { Box } from "@mui/material";
 
 import React, { useState, useRef } from "react";
 import Slider from "react-slick";
+import { useSlider } from "@/app/(reals)/SliderContext";
+import theme from "@/styles/theme";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import "@/styles/css/thumbnail_slider.css";
@@ -10,17 +13,21 @@ import PrevThumbArrow from "./PrevThumbArrow";
 import NextThumbArrow from "./NextThumbArrow";
 
 export function Thumbnails() {
+  const { mainSliderRef, thumbSliderRef, activeSlide, setActiveSlide } =
+    useSlider();
   const sliderRef = useRef<Slider | null>(null);
 
   const next = () => {
-    if (sliderRef.current) {
-      sliderRef.current.slickNext();
+    if (mainSliderRef.current && thumbSliderRef.current) {
+      mainSliderRef.current.slickNext();
+      thumbSliderRef.current.slickNext();
     }
   };
 
   const prev = () => {
-    if (sliderRef.current) {
-      sliderRef.current.slickPrev();
+    if (mainSliderRef.current && thumbSliderRef.current) {
+      mainSliderRef.current.slickPrev();
+      thumbSliderRef.current.slickPrev();
     }
   };
 
@@ -45,7 +52,16 @@ export function Thumbnails() {
     { id: 15, url: "/placeholders/82x82.png" },
   ];
 
+  const handleThumbnailClick = (index: number) => {
+    if (mainSliderRef.current) {
+      mainSliderRef.current.slickGoTo(index);
+    }
+    setActiveSlide(index);
+  };
+
   var settings = {
+    asNavFor: mainSliderRef.current || undefined,
+    ref: thumbSliderRef,
     dots: false,
     infinite: false,
     speed: 500,
@@ -55,6 +71,21 @@ export function Thumbnails() {
     draggable: true,
     swipeToSlide: true,
     touchThreshold: 10,
+    beforeChange: (current, next) => setActiveSlide(next),
+    responsive: [
+      {
+        breakpoint: 1200, // Breakpoint for large screens
+        settings: {
+          slidesToShow: 6,
+        },
+      },
+      {
+        breakpoint: 900, // Breakpoint for medium screens
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+    ],
   };
 
   return (
@@ -70,6 +101,16 @@ export function Thumbnails() {
         "&:hover": {
           transform: "scale(1.15)",
         },
+        [(theme.breakpoints.down("sm"),
+        theme.breakpoints.down("md"),
+        theme.breakpoints.down("lg"))]: {
+          "&:hover": {
+            transform: "scale(1)",
+          },
+        },
+        [theme.breakpoints.down("sm")]: {
+          gap: "10px",
+        },
       }}
     >
       <PrevThumbArrow onClick={prev} />
@@ -79,20 +120,24 @@ export function Thumbnails() {
           width: "521px",
           alignItems: "center",
           transition: "transform 0.3s ease",
+          [theme.breakpoints.down("md")]: {
+            width: "326px",
+          },
+          [theme.breakpoints.down("sm")]: {
+            width: "226px",
+          },
         }}
       >
-        <Slider
-          {...settings}
-          ref={sliderRef}
-          className="sx-thumbnails__container"
-        >
-          {thumbsList.map((thumb) => (
+        <Slider {...settings} className="sx-thumbnails__container">
+          {thumbsList.map((thumb, index) => (
             <Box
               key={thumb.id}
+              onClick={() => handleThumbnailClick(index)}
               sx={{
                 padding: "2px",
                 transition: "transform 0.3s ease",
                 transform: isHovered ? "scale(0.98)" : "none",
+                border: index === activeSlide ? "2px solid red" : "none",
               }}
               onMouseEnter={() => {
                 setIsHovered(true);
@@ -121,6 +166,14 @@ export function Thumbnails() {
                     width: "120%",
                     boxShadow: "0px 0px 6px #00000040",
                     zIndex: "100000",
+                  },
+                  "&:active": {
+                    border: "none", // Ensure no border on active
+                    transform: "none", // Ensure no transform on active
+                  },
+                  "&:focus": {
+                    border: "none", // Ensure no border on focus
+                    transform: "none", // Ensure no transform on focus
                   },
                 }}
                 className="sx-thumbnails__item"
