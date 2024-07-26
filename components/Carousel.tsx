@@ -76,21 +76,30 @@ interface CarouselProps {
 }
 
 const Carousel: React.FC<CarouselProps> = ({ children }) => {
-  const { mainSliderRef, thumbSliderRef, activeSlide, setActiveSlide } =
-    useSlider();
+  const {
+    mainSliderRef,
+    thumbSliderRef,
+    activeSlide,
+    setActiveSlide,
+    prevSlide,
+    setPrevSlide,
+  } = useSlider();
 
   const settings = {
-    asNavFor: thumbSliderRef.current || undefined,
+    // asNavFor: thumbSliderRef.current || undefined,
     ref: mainSliderRef,
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    beforeChange: (current, next) => setActiveSlide(next),
+    beforeChange: (current, next) => {
+      setActiveSlide(next);
+      setPrevSlide(current);
+    },
   };
 
   const images = React.Children.map(children, (child) => {
@@ -103,7 +112,6 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
   return (
     <Box width="100vw" height="100vh" overflow="hidden" position="relative">
       <Slider {...settings}>
-        {" "}
         {React.Children.map(children, (child, index) => (
           <Box
             sx={{

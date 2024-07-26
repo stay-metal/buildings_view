@@ -1,10 +1,12 @@
 import { Box } from "@mui/material";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import { useSlider } from "@/app/(reals)/SliderContext";
 import theme from "@/styles/theme";
 import slides from "@/data/slides";
+import { useMediaQuery } from "react-responsive";
+import ThumbsCarousel from "./ThumbsCarousel";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,22 +16,73 @@ import PrevThumbArrow from "./PrevThumbArrow";
 import NextThumbArrow from "./NextThumbArrow";
 
 export function Thumbnails({ isFullScreen }: { isFullScreen: boolean }) {
+  const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
   const data = slides;
 
-  const { mainSliderRef, thumbSliderRef, activeSlide, setActiveSlide } =
-    useSlider();
+  console.log("isMobile", isMobile);
+  const slidesToShow = isMobile ? 3 : 5;
+
+  const {
+    mainSliderRef,
+    thumbSliderRef,
+    activeSlide,
+    setActiveSlide,
+    prevSlide,
+    setPrevSlide,
+  } = useSlider();
+
+  useEffect(() => {
+    // console.log("All slides count", slides.length);
+    // console.log("Slides to show", slidesToShow);
+    console.log("Current slide", activeSlide);
+    console.log("Prev slide", prevSlide);
+    const divs = document.querySelectorAll(
+      'div[data-index][aria-hidden="false"]'
+    );
+    // Create an array of data-index attributes, ensuring they are parsed correctly
+    const dataIndexArray = Array.from(divs)
+      .map((div) => div.getAttribute("data-index"))
+      .filter((dataIndex): dataIndex is string => dataIndex !== null) // Type guard to filter out null values
+      .map((dataIndex) => parseInt(dataIndex, 10)); // Parse to integer
+
+    // console.log(dataIndexArray[dataIndexArray.length - 1]);
+    if (activeSlide >= dataIndexArray[dataIndexArray.length - 1]) {
+      thumbSliderRef.current.slickGoTo(activeSlide);
+    } else if (activeSlide === dataIndexArray[1] && prevSlide > activeSlide) {
+      console.log("activeSlide", activeSlide);
+      console.log("dataIndexArray[0]", dataIndexArray[1]);
+      // console.log("First slide", dataIndexArray[1]);
+      console.log("go back to ");
+      thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow);
+    } else if (activeSlide < dataIndexArray[1] && prevSlide > activeSlide) {
+      thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow);
+    }
+    // if ( activeSlide === dataIndexArray[dataIndexArray.length-1])
+    // divs.forEach((div) => {
+    //   console.log(div.getAttribute("data-index"));
+    // });
+    // if ((activeSlide + 1) % slidesToShow === 0) {
+    //   console.log(activeSlide + 1, "is last in a row");
+    // }
+    // const isLastSlideInRow =
+    //   (activeSlide) % slidesToShow === 0 ||
+    //   activeSlide === thumbDetails.length - 1;
+    // console.log("isLastSlideInRow", isLastSlideInRow);
+    // if (isLastSlideInRow) {
+    //   thumbSliderRef.current.slickGoTo(activeSlide);
+    // }
+  }, [activeSlide]);
 
   const next = () => {
     if (mainSliderRef.current && thumbSliderRef.current) {
-      mainSliderRef.current.slickNext();
-      thumbSliderRef.current.slickNext();
+      mainSliderRef.current.slickGoTo(activeSlide + 1);
     }
   };
 
   const prev = () => {
+    console.log("moving backward");
     if (mainSliderRef.current && thumbSliderRef.current) {
-      mainSliderRef.current.slickPrev();
-      thumbSliderRef.current.slickPrev();
+      mainSliderRef.current.slickGoTo(activeSlide - 1);
     }
   };
 
@@ -41,10 +94,12 @@ export function Thumbnails({ isFullScreen }: { isFullScreen: boolean }) {
   const thumbDetails = data.map(({ id, thumbUrl: url }) => ({ id, url }));
 
   const handleThumbnailClick = (index: number) => {
+    console.log("click");
     if (mainSliderRef.current) {
       mainSliderRef.current.slickGoTo(index);
     }
     setActiveSlide(index);
+    setPrevSlide(activeSlide);
   };
 
   var settings = {
@@ -56,10 +111,9 @@ export function Thumbnails({ isFullScreen }: { isFullScreen: boolean }) {
     slidesToShow: 6,
     slidesToScroll: 1,
     arrows: false,
-    draggable: true,
+    draggable: false,
     swipeToSlide: true,
     touchThreshold: 10,
-    beforeChange: (current, next) => setActiveSlide(next),
     responsive: [
       {
         breakpoint: 1200, // Breakpoint for large screens
@@ -74,6 +128,10 @@ export function Thumbnails({ isFullScreen }: { isFullScreen: boolean }) {
         },
       },
     ],
+    beforeChange: (current, next) => {
+      // setActiveSlide(next);
+      setPrevSlide(current);
+    },
   };
 
   return (
