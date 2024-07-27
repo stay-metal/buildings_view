@@ -8,7 +8,6 @@ export const SxContainer = styled("div")(
     max-width: ${theme.custom.width.maxContentWidth}px;
     width: 100%;
     padding: ${theme.custom.spacing.content.xl}px;
-    background-color: #1E1E1E70;
     margin: 0 auto;
     ${theme.breakpoints.down("xl")} {
       max-width: 100%;
@@ -74,5 +73,23 @@ export const SxCircleButton = styled("button")(
         height: 25px;
         font-size: 19px;
     }
+`
+);
+
+/* Reals Slider Component */
+
+/* Thumbnails slider */
+export const SxThumbnailsWrapper = styled("div")(
+  ({ theme }) => `
+        display: "flex",
+        gap: "25px",
+        justify-content: "space-between",
+        align-items: "center",
+        margin-left: "auto",
+        margin-right: "auto",
+        transition: "0.2s ease",
+        ${theme.breakpoints.down("sm")} {
+          gap: "10px",
+        }
 `
 );

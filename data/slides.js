@@ -89,3 +89,60 @@ export const slides = [
 ];
 
 export default slides;
+
+export const newData = [
+  {
+    id: "caf1b969-0ebb-4df1-84cb-538c2f954c54",
+    views: [
+      /* Text Slide 
+        {
+          
+        }
+        */
+      {
+        id: 1,
+        asset_name: "file1",
+        asset_type: "photo",
+        fit_to_page: true,
+        background_color: "#ffffff",
+        opacity: 0.8,
+        blur: 5.0,
+        text_color: "#000000",
+        title: "Title 1",
+        description: "Description 1",
+        link: "http://example.com",
+      },
+    ],
+    salesperson_name: "John Doe",
+    salesperson_email: "johndoe@example.com",
+    client_name: "Jane Smith",
+    client_email: "janesmith@example.com",
+    intro_screen_text: "Welcome to the realm",
+    // Logo
+    // BackgroundColor
+  },
+];
+
+//
+{
+  {
+    //1
+    // Text Slide
+  }
+  {
+    //2
+    // Image Slide
+  }
+  {
+    //3
+    // Image Slide
+  }
+  {
+    //4
+    // 360 panorama
+  }
+  {
+    //5
+    // 360 panorama
+  }
+}

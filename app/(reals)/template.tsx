@@ -4,12 +4,23 @@ import FullSreen from "@/components/Buttons/FullScreen";
 import Logo from "@/components/ui/Logo";
 import Share from "@/components/Buttons/Share";
 import Footer from "@/components/Footer";
-import { Thumbnails } from "@/components/Slider/Thumbnails";
 import { SliderProvider } from "./SliderContext";
-import { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { CircularProgress } from "@mui/material";
+
+const Thumbnails = React.lazy(() => import("@/components/Slider/Thumbnails"));
 
 export default function Template({ children }: { children: React.ReactNode }) {
+  const [showThumbnails, setShowThumbnails] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  // Timer to show loading spinner for a minimum amount of time
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowThumbnails(true);
+    }, 0); // Set the minimum loading time in milliseconds (e.g., 1000ms = 1 second)
+
+    return () => clearTimeout(timer);
+  }, []);
 
   function handleFullScreenClick() {
     setIsFullScreen(!isFullScreen);
@@ -27,7 +38,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
         </Header>
         {children}
         <Footer>
-          <Thumbnails isFullScreen={isFullScreen} />
+          <Suspense fallback={<CircularProgress />}>
+            {showThumbnails && <Thumbnails isFullScreen={isFullScreen} />}
+          </Suspense>
         </Footer>
       </SliderProvider>
     </>

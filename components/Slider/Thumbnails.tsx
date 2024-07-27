@@ -1,27 +1,27 @@
-import { Box } from "@mui/material";
-
 import React, { useState, useEffect } from "react";
+import { Box } from "@mui/material";
 import Slider from "react-slick";
+import { useMediaQuery } from "react-responsive";
 import { useSlider } from "@/app/(reals)/SliderContext";
 import theme from "@/styles/theme";
 import slides from "@/data/slides";
-import { useMediaQuery } from "react-responsive";
-import ThumbsCarousel from "./ThumbsCarousel";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import "@/styles/css/thumbnail_slider.css";
+import { motion } from "framer-motion";
 
 import PrevThumbArrow from "./PrevThumbArrow";
 import NextThumbArrow from "./NextThumbArrow";
 
-export function Thumbnails({ isFullScreen }: { isFullScreen: boolean }) {
+export default function Thumbnails({
+  isFullScreen,
+}: {
+  isFullScreen: boolean;
+}) {
+  // Define how much slides to show on different screens
   const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
-  const data = slides;
-
-  console.log("isMobile", isMobile);
   const slidesToShow = isMobile ? 3 : 5;
 
+  // Slider proprs for sync with main slider
   const {
     mainSliderRef,
     thumbSliderRef,
@@ -31,70 +31,34 @@ export function Thumbnails({ isFullScreen }: { isFullScreen: boolean }) {
     setPrevSlide,
   } = useSlider();
 
+  const [isHovered, setIsHovered] = useState(false); // To catch Thumb hover event
+  const [hoveredThumb, setHoveredThumb] = useState(-1); // To catch hoverd Thumb Id
+
+  const thumbDetails = slides.map(({ id, thumbUrl: url }) => ({ id, url })); // get the data
+
+  // Effect to trigger scroll event when user is on first/last thumb in a row
   useEffect(() => {
-    // console.log("All slides count", slides.length);
-    // console.log("Slides to show", slidesToShow);
-    console.log("Current slide", activeSlide);
-    console.log("Prev slide", prevSlide);
-    const divs = document.querySelectorAll(
+    // Get all visable thumbs in a row
+    const visibleDivs = document.querySelectorAll(
       'div[data-index][aria-hidden="false"]'
     );
-    // Create an array of data-index attributes, ensuring they are parsed correctly
-    const dataIndexArray = Array.from(divs)
+    // Make an array of visible items
+    const dataIndexArray = Array.from(visibleDivs)
       .map((div) => div.getAttribute("data-index"))
-      .filter((dataIndex): dataIndex is string => dataIndex !== null) // Type guard to filter out null values
-      .map((dataIndex) => parseInt(dataIndex, 10)); // Parse to integer
+      .filter((dataIndex): dataIndex is string => dataIndex !== null)
+      .map((dataIndex) => parseInt(dataIndex, 10));
 
-    // console.log(dataIndexArray[dataIndexArray.length - 1]);
     if (activeSlide >= dataIndexArray[dataIndexArray.length - 1]) {
-      thumbSliderRef.current.slickGoTo(activeSlide);
+      thumbSliderRef.current.slickGoTo(activeSlide); // Scroll slides when user points to last thumb in a row
     } else if (activeSlide === dataIndexArray[1] && prevSlide > activeSlide) {
-      console.log("activeSlide", activeSlide);
-      console.log("dataIndexArray[0]", dataIndexArray[1]);
-      // console.log("First slide", dataIndexArray[1]);
-      console.log("go back to ");
-      thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow);
+      thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow); // Scroll when user points to first thumb in a row if previously slide has bigger id
     } else if (activeSlide < dataIndexArray[1] && prevSlide > activeSlide) {
-      thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow);
+      thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow); // Catch event if somehow slide id is less than slides in a row
     }
-    // if ( activeSlide === dataIndexArray[dataIndexArray.length-1])
-    // divs.forEach((div) => {
-    //   console.log(div.getAttribute("data-index"));
-    // });
-    // if ((activeSlide + 1) % slidesToShow === 0) {
-    //   console.log(activeSlide + 1, "is last in a row");
-    // }
-    // const isLastSlideInRow =
-    //   (activeSlide) % slidesToShow === 0 ||
-    //   activeSlide === thumbDetails.length - 1;
-    // console.log("isLastSlideInRow", isLastSlideInRow);
-    // if (isLastSlideInRow) {
-    //   thumbSliderRef.current.slickGoTo(activeSlide);
-    // }
-  }, [activeSlide]);
+  }, [activeSlide, prevSlide, slidesToShow, thumbSliderRef]);
 
-  const next = () => {
-    if (mainSliderRef.current && thumbSliderRef.current) {
-      mainSliderRef.current.slickGoTo(activeSlide + 1);
-    }
-  };
-
-  const prev = () => {
-    console.log("moving backward");
-    if (mainSliderRef.current && thumbSliderRef.current) {
-      mainSliderRef.current.slickGoTo(activeSlide - 1);
-    }
-  };
-
-  const [isHovered, setIsHovered] = useState(false);
-  const [hoverdThumb, setHoverdThumb] = useState(-1);
-
-  // Get all images from data file
-
-  const thumbDetails = data.map(({ id, thumbUrl: url }) => ({ id, url }));
-
+  // Trigger slider goto when on click to thumb
   const handleThumbnailClick = (index: number) => {
-    console.log("click");
     if (mainSliderRef.current) {
       mainSliderRef.current.slickGoTo(index);
     }
@@ -102,7 +66,22 @@ export function Thumbnails({ isFullScreen }: { isFullScreen: boolean }) {
     setPrevSlide(activeSlide);
   };
 
-  var settings = {
+  // Slider next button
+  const next = () => {
+    if (mainSliderRef.current) {
+      mainSliderRef.current.slickGoTo(activeSlide + 1);
+    }
+  };
+
+  // Slider prev button
+  const prev = () => {
+    if (mainSliderRef.current) {
+      mainSliderRef.current.slickGoTo(activeSlide - 1);
+    }
+  };
+
+  // Slider settings
+  const sliderSettings = {
     asNavFor: mainSliderRef.current || undefined,
     ref: thumbSliderRef,
     dots: false,
@@ -116,120 +95,131 @@ export function Thumbnails({ isFullScreen }: { isFullScreen: boolean }) {
     touchThreshold: 10,
     responsive: [
       {
-        breakpoint: 1200, // Breakpoint for large screens
+        breakpoint: 1200,
         settings: {
           slidesToShow: 6,
         },
       },
       {
-        breakpoint: 900, // Breakpoint for medium screens
+        breakpoint: 900,
         settings: {
           slidesToShow: 4,
         },
       },
     ],
     beforeChange: (current, next) => {
-      // setActiveSlide(next);
       setPrevSlide(current);
     },
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        gap: "25px",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginLeft: "auto",
-        marginRight: "auto",
-        transition: "0.2s ease",
-        "&:hover": {
-          transform: "scale(1.15)",
-        },
-        [(theme.breakpoints.down("sm"),
-        theme.breakpoints.down("md"),
-        theme.breakpoints.down("lg"))]: {
-          "&:hover": {
-            transform: "scale(1)",
-          },
-        },
-        [theme.breakpoints.down("sm")]: {
-          gap: "10px",
-        },
-        opacity: !isFullScreen ? "1" : "0",
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.2 }}
     >
-      <PrevThumbArrow onClick={prev} />
+      {/* Thumbs Slider Wrapper styles */}
       <Box
         sx={{
-          display: "inline-block",
-          width: "521px",
+          display: "flex",
+          gap: "25px",
+          justifyContent: "space-between",
           alignItems: "center",
-          transition: "transform 0.3s ease",
-          [theme.breakpoints.down("md")]: {
-            width: "326px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          transition: "0.2s ease",
+          "&:hover": {
+            transform: "scale(1.15)",
+          },
+          [(theme.breakpoints.down("sm"),
+          theme.breakpoints.down("md"),
+          theme.breakpoints.down("lg"))]: {
+            "&:hover": {
+              transform: "scale(1)",
+            },
           },
           [theme.breakpoints.down("sm")]: {
-            width: "226px",
+            gap: "10px",
           },
+          opacity: !isFullScreen ? "1" : "0",
         }}
       >
-        <Slider {...settings} className="sx-thumbnails__container">
-          {thumbDetails.map((thumb, index) => (
-            <Box
-              key={thumb.id}
-              onClick={() => handleThumbnailClick(index)}
-              sx={{
-                padding: "2px",
-                transition: "transform 0.3s ease",
-                transform: isHovered ? "scale(0.98)" : "none",
-                border: index === activeSlide ? "2px solid red" : "none",
-              }}
-              onMouseEnter={() => {
-                setIsHovered(true);
-                setHoverdThumb(thumb.id);
-              }}
-              onMouseLeave={() => {
-                setIsHovered(false);
-                setHoverdThumb(-1);
-              }}
-            >
-              <Box sx={{ position: "absolute" }}>{thumb.id}</Box>
+        {/* Thumbs Slider Nav Button */}
+        <PrevThumbArrow onClick={prev} />
+        {/* Thumbs Slider Container */}
+        <Box
+          sx={{
+            display: "inline-block",
+            width: "521px",
+            alignItems: "center",
+            transition: "transform 0.3s ease",
+            [theme.breakpoints.down("md")]: {
+              width: "326px",
+            },
+            [theme.breakpoints.down("sm")]: {
+              width: "226px",
+            },
+          }}
+        >
+          {/* Thumbs Slider Component */}
+          <Slider {...sliderSettings} className="sx-thumbnails__container">
+            {/* Thumbs Slider Items Lsit */}
+            {thumbDetails.map((thumb, index) => (
               <Box
-                component="img"
-                src={thumb.url}
+                key={thumb.id}
+                onClick={() => handleThumbnailClick(index)}
                 sx={{
-                  cursor: "pointer",
-                  transition: "transform 0.2s ease",
-                  borderRadius: "6px",
-                  transform:
-                    isHovered && hoverdThumb != thumb.id
-                      ? "scale(0.98)"
-                      : "none",
-
-                  "&:hover": {
-                    transform: "scale(1.07)",
-                    width: "120%",
-                    boxShadow: "0px 0px 6px #00000040",
-                    zIndex: "100000",
-                  },
-                  "&:active": {
-                    border: "none", // Ensure no border on active
-                    transform: "none", // Ensure no transform on active
-                  },
-                  "&:focus": {
-                    border: "none", // Ensure no border on focus
-                    transform: "none", // Ensure no transform on focus
-                  },
+                  padding: "2px",
+                  transition: "transform 0.3s ease",
+                  transform: isHovered ? "scale(0.98)" : "none",
+                  border: index === activeSlide ? "2px solid red" : "none",
                 }}
-                className="sx-thumbnails__item"
-              />
-            </Box>
-          ))}
-        </Slider>
+                onMouseEnter={() => {
+                  setIsHovered(true);
+                  setHoveredThumb(thumb.id);
+                }}
+                onMouseLeave={() => {
+                  setIsHovered(false);
+                  setHoveredThumb(-1);
+                }}
+              >
+                <Box sx={{ position: "absolute" }}>{thumb.id}</Box>
+                <Box
+                  component="img"
+                  src={thumb.url}
+                  sx={{
+                    cursor: "pointer",
+                    transition: "transform 0.2s ease",
+                    borderRadius: "6px",
+                    transform:
+                      isHovered && hoveredThumb !== thumb.id
+                        ? "scale(0.98)"
+                        : "none",
+                    "&:hover": {
+                      transform: "scale(1.07)",
+                      width: "120%",
+                      boxShadow: "0px 0px 6px #00000040",
+                      zIndex: "100000",
+                    },
+                    "&:active": {
+                      border: "none",
+                      transform: "none",
+                    },
+                    "&:focus": {
+                      border: "none",
+                      transform: "none",
+                    },
+                  }}
+                  className="sx-thumbnails__item"
+                />
+              </Box>
+            ))}
+          </Slider>
+        </Box>
+        {/* Thumbs Slider Nav Button */}
+        <NextThumbArrow onClick={next} />
       </Box>
-      <NextThumbArrow onClick={next} />
-    </Box>
+    </motion.div>
   );
 }

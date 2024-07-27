@@ -13,29 +13,36 @@ const Share = ({ isFullScreen }: { isFullScreen: boolean }) => {
 
   return (
     <motion.div
-      initial={{ opacity: hasMounted ? 0 : 1 }}
-      animate={{ opacity: isFullScreen ? 0 : 1 }}
-      transition={{ duration: 0.15 }}
+      initial={{ opacity: 0, y: -10, x: 5 }}
+      animate={{ opacity: 1, y: 0, x: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.2 }}
     >
-      <SxHeaderButton
-        sx={{
-          transition: "0.2s",
-          "&:hover": {
-            transform: "scale(1.1)",
-          },
-        }}
+      <motion.div
+        initial={{ opacity: hasMounted ? 0 : 1 }}
+        animate={{ opacity: isFullScreen ? 0 : 1 }}
+        transition={{ duration: 0.15 }}
       >
-        <ScreenShare
-          fontSize={"inherit"}
-          color={"inherit"}
+        <SxHeaderButton
           sx={{
-            fontSize: "30px",
-            [(theme.breakpoints.down("sm"), theme.breakpoints.down("md"))]: {
-              fontSize: "18px",
+            transition: "0.2s",
+            "&:hover": {
+              transform: "scale(1.1)",
             },
           }}
-        />
-      </SxHeaderButton>
+        >
+          <ScreenShare
+            fontSize={"inherit"}
+            color={"inherit"}
+            sx={{
+              fontSize: "30px",
+              [(theme.breakpoints.down("sm"), theme.breakpoints.down("md"))]: {
+                fontSize: "18px",
+              },
+            }}
+          />
+        </SxHeaderButton>
+      </motion.div>
     </motion.div>
   );
 };
