@@ -1,41 +1,45 @@
 "use client";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import Carousel from "@/components/Carousel";
 import { useSlider } from "./SliderContext";
 import slides from "@/data/slides";
+import { useSxAppContext } from "@/app/SxAppContext";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 export default function Page() {
   const { mainSliderRef, thumbSliderRef } = useSlider();
+  // TODO: Change when adding API data fetch
+  const viewsData = [];
+  const { data } = useSxAppContext();
 
-  // const data = slides.map(({ id, slideUrl: url }) => ({ id, url }));
-  const property = {
-    imageUrl: "https://bit.ly/2Z4KKcF",
-    imageAlt: "Rear view of modern home with pool",
-    beds: 3,
-    baths: 2,
-    title: "Modern home in city center in the heart of historic Los Angeles",
-    formattedPrice: "$1,900.00",
-    reviewCount: 34,
-    rating: 4,
-  };
+  if (!data) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  const { views } = data;
 
   return (
     <>
-      <Box
-        maxWidth="100vw"
-        maxHeight="100vh"
-        // // bgcolor={"black"}
-        // height={"100vh"}
-      >
+      <Box maxWidth="100vw" maxHeight="100vh">
         <Carousel mainSliderRef={mainSliderRef} thumbSliderRef={thumbSliderRef}>
-          {slides.map((slide, id) => (
-            <Box height="100vh" key={slide.id}>
+          {views.map(({ viewId, image_url: imageUrl, ...view }, id) => (
+            <Box height="100vh" key={viewId}>
               <img
-                src={slide.slideUrl}
+                src={imageUrl}
                 alt="Slide 2"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
-              {/* {(slide.type && slide.type==='text') ? :} */}
             </Box>
           ))}
         </Carousel>

@@ -1,6 +1,12 @@
 "use client";
 import { Roboto } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
+import { apiData } from "@/data/slides";
+
+// This property comes from backend and is automatically set as body bgColor
+// Othervise body bgColor is set to #FFFFF
+
+const realsBackgroundColor = apiData.background_color;
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -24,13 +30,23 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        body: {
+        html: {
           margin: 0,
+          padding: 0,
+        },
+        body: {
+          backgroundColor: realsBackgroundColor ? realsBackgroundColor : "#FFF",
+          margin: 0,
+          padding: 0,
+          overflow: "hidden",
         },
       },
     },
   },
   custom: {
+    color: {
+      backgroundColor: realsBackgroundColor ? realsBackgroundColor : "#FFF",
+    },
     width: {
       maxContentWidth: 1440,
       logoWidth: {

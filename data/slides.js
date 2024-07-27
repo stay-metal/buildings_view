@@ -1,3 +1,45 @@
+export const apiData = {
+  id: "caf1b969-0ebb-4df1-84cb-538c2f954c54",
+  views: [
+    {
+      id: 1,
+      asset_name: "file1",
+      asset_type: "photo",
+      fit_to_page: true,
+      background_color: "#ffffff",
+      opacity: 0.8,
+      blur: 5.0,
+      text_color: "#000000",
+      title: "Title 1",
+      description: "Description 1",
+      thumb_url: "https://via.placeholder.com/82x82.png",
+      image_url: "/home_image.png",
+      link: "http://example.com",
+    },
+    {
+      id: 2,
+      asset_name: "file1",
+      asset_type: "photo",
+      fit_to_page: true,
+      background_color: "#ffffff",
+      opacity: 0.8,
+      blur: 5.0,
+      text_color: "#000000",
+      title: "Title 2",
+      description: "Description 2",
+      thumb_url: "https://via.placeholder.com/82x82.png",
+      image_url: "https://via.placeholder.com/1920x1024.png",
+      link: "http://example.com",
+    },
+  ],
+  salesperson_name: "John Doe",
+  salesperson_email: "johndoe@example.com",
+  client_name: "Jane Smith",
+  client_email: "janesmith@example.com",
+  intro_screen_text: "Welcome to the realm",
+  background_color: "#66245F",
+};
+
 export const slides = [
   {
     id: 1,

@@ -4,10 +4,10 @@ import Slider from "react-slick";
 import { useMediaQuery } from "react-responsive";
 import { useSlider } from "@/app/(reals)/SliderContext";
 import theme from "@/styles/theme";
-import slides from "@/data/slides";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
+import { useSxAppContext } from "@/app/SxAppContext";
 
 import PrevThumbArrow from "./PrevThumbArrow";
 import NextThumbArrow from "./NextThumbArrow";
@@ -20,6 +20,11 @@ export default function Thumbnails({
   // Define how much slides to show on different screens
   const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
   const slidesToShow = isMobile ? 3 : 5;
+
+  // TODO: Change when adding API data fetch
+  const thumbsData = [];
+  const { data } = useSxAppContext(); // get Data from API
+  const { views } = data; // get all slides
 
   // Slider proprs for sync with main slider
   const {
@@ -34,8 +39,6 @@ export default function Thumbnails({
   const [isHovered, setIsHovered] = useState(false); // To catch Thumb hover event
   const [hoveredThumb, setHoveredThumb] = useState(-1); // To catch hoverd Thumb Id
 
-  const thumbDetails = slides.map(({ id, thumbUrl: url }) => ({ id, url })); // get the data
-
   // Effect to trigger scroll event when user is on first/last thumb in a row
   useEffect(() => {
     // Get all visable thumbs in a row
@@ -48,12 +51,15 @@ export default function Thumbnails({
       .filter((dataIndex): dataIndex is string => dataIndex !== null)
       .map((dataIndex) => parseInt(dataIndex, 10));
 
-    if (activeSlide >= dataIndexArray[dataIndexArray.length - 1]) {
-      thumbSliderRef.current.slickGoTo(activeSlide); // Scroll slides when user points to last thumb in a row
-    } else if (activeSlide === dataIndexArray[1] && prevSlide > activeSlide) {
-      thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow); // Scroll when user points to first thumb in a row if previously slide has bigger id
-    } else if (activeSlide < dataIndexArray[1] && prevSlide > activeSlide) {
-      thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow); // Catch event if somehow slide id is less than slides in a row
+    if (dataIndexArray.length > slidesToShow) {
+      // If there is several rows of slides
+      if (activeSlide >= dataIndexArray[dataIndexArray.length - 1]) {
+        thumbSliderRef.current.slickGoTo(activeSlide); // Scroll slides when user points to last thumb in a row
+      } else if (activeSlide === dataIndexArray[1] && prevSlide > activeSlide) {
+        thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow); // Scroll when user points to first thumb in a row if previously slide has bigger id
+      } else if (activeSlide < dataIndexArray[1] && prevSlide > activeSlide) {
+        thumbSliderRef.current.slickGoTo(activeSlide - slidesToShow); // Catch event if somehow slide id is less than slides in a row
+      }
     }
   }, [activeSlide, prevSlide, slidesToShow, thumbSliderRef]);
 
@@ -165,9 +171,9 @@ export default function Thumbnails({
           {/* Thumbs Slider Component */}
           <Slider {...sliderSettings} className="sx-thumbnails__container">
             {/* Thumbs Slider Items Lsit */}
-            {thumbDetails.map((thumb, index) => (
+            {views.map(({ id, thumb_url: thumbUrl }, index) => (
               <Box
-                key={thumb.id}
+                key={id}
                 onClick={() => handleThumbnailClick(index)}
                 sx={{
                   padding: "2px",
@@ -177,25 +183,23 @@ export default function Thumbnails({
                 }}
                 onMouseEnter={() => {
                   setIsHovered(true);
-                  setHoveredThumb(thumb.id);
+                  setHoveredThumb(id);
                 }}
                 onMouseLeave={() => {
                   setIsHovered(false);
                   setHoveredThumb(-1);
                 }}
               >
-                <Box sx={{ position: "absolute" }}>{thumb.id}</Box>
+                <Box sx={{ position: "absolute" }}>{id}</Box>
                 <Box
                   component="img"
-                  src={thumb.url}
+                  src={thumbUrl}
                   sx={{
                     cursor: "pointer",
                     transition: "transform 0.2s ease",
                     borderRadius: "6px",
                     transform:
-                      isHovered && hoveredThumb !== thumb.id
-                        ? "scale(0.98)"
-                        : "none",
+                      isHovered && hoveredThumb !== id ? "scale(0.98)" : "none",
                     "&:hover": {
                       transform: "scale(1.07)",
                       width: "120%",

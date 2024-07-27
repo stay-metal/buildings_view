@@ -3,6 +3,9 @@ import { ThemeOptions } from "@mui/material/styles";
 declare module "@mui/material/styles" {
   interface Theme {
     custom: {
+      color: {
+        backgroundColor: string;
+      };
       width: {
         maxContentWidth: number;
         logoWidth: {
@@ -23,6 +26,9 @@ declare module "@mui/material/styles" {
   }
   interface ThemeOptions {
     custom: {
+      color: {
+        backgroundColor: string;
+      };
       width: {
         maxContentWidth: number;
         logoWidth: {

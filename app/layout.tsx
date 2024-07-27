@@ -1,5 +1,5 @@
 "use client";
-
+import { SxAppProvider } from "./SxAppContext";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -12,7 +12,9 @@ export default function RootLayout({
     <html lang="en">
       <meta name="viewport" content="initial-scale=1, width=device-width" />
       <body>
-        <Providers>{children}</Providers>
+        <SxAppProvider>
+          <Providers>{children}</Providers>
+        </SxAppProvider>
       </body>
     </html>
   );

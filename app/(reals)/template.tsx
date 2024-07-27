@@ -7,12 +7,14 @@ import Footer from "@/components/Footer";
 import { SliderProvider } from "./SliderContext";
 import React, { useState, useEffect, Suspense } from "react";
 import { CircularProgress } from "@mui/material";
+import { useSxAppContext } from "../SxAppContext";
 
 const Thumbnails = React.lazy(() => import("@/components/Slider/Thumbnails"));
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const [showThumbnails, setShowThumbnails] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+
   // Timer to show loading spinner for a minimum amount of time
   useEffect(() => {
     const timer = setTimeout(() => {
