@@ -8,10 +8,21 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
 import { useSxAppContext } from "@/app/SxAppContext";
-
+import { GlobalStyles } from "@mui/material";
 import PrevThumbArrow from "./PrevThumbArrow";
 import NextThumbArrow from "./NextThumbArrow";
 
+<GlobalStyles
+  styles={{
+    ".slick-slider": {
+      display: "none",
+    },
+  }}
+/>;
+
+// TODO: Fix width of the  thumbs container
+// TODO: Add Suspense
+// TODO: Fix reaction time and behaviour on click and tap on thumbnail
 export default function Thumbnails({
   isFullScreen,
 }: {
@@ -171,54 +182,72 @@ export default function Thumbnails({
           {/* Thumbs Slider Component */}
           <Slider {...sliderSettings} className="sx-thumbnails__container">
             {/* Thumbs Slider Items Lsit */}
-            {views.map(({ id, thumb_url: thumbUrl }, index) => (
-              <Box
-                key={id}
-                onClick={() => handleThumbnailClick(index)}
-                sx={{
-                  padding: "2px",
-                  transition: "transform 0.3s ease",
-                  transform: isHovered ? "scale(0.98)" : "none",
-                  border: index === activeSlide ? "2px solid red" : "none",
-                }}
-                onMouseEnter={() => {
-                  setIsHovered(true);
-                  setHoveredThumb(id);
-                }}
-                onMouseLeave={() => {
-                  setIsHovered(false);
-                  setHoveredThumb(-1);
-                }}
-              >
-                <Box sx={{ position: "absolute" }}>{id}</Box>
+            {views.map(
+              ({ id, thumb_url: thumbUrl, asset_type: assetType }, index) => (
                 <Box
-                  component="img"
-                  src={thumbUrl}
+                  key={id}
+                  onClick={() => handleThumbnailClick(index)}
                   sx={{
-                    cursor: "pointer",
-                    transition: "transform 0.2s ease",
-                    borderRadius: "6px",
-                    transform:
-                      isHovered && hoveredThumb !== id ? "scale(0.98)" : "none",
-                    "&:hover": {
-                      transform: "scale(1.07)",
-                      width: "120%",
-                      boxShadow: "0px 0px 6px #00000040",
-                      zIndex: "100000",
-                    },
-                    "&:active": {
-                      border: "none",
-                      transform: "none",
-                    },
-                    "&:focus": {
-                      border: "none",
-                      transform: "none",
-                    },
+                    padding: "2px",
+                    transition: "transform 0.3s ease",
+                    transform: isHovered ? "scale(0.98)" : "none",
+                    // border: index === activeSlide ? "2px solid red" : "none",
                   }}
-                  className="sx-thumbnails__item"
-                />
-              </Box>
-            ))}
+                  onMouseEnter={() => {
+                    setIsHovered(true);
+                    setHoveredThumb(id);
+                  }}
+                  onMouseLeave={() => {
+                    setIsHovered(false);
+                    setHoveredThumb(-1);
+                  }}
+                >
+                  {/* <Box sx={{ position: "absolute" }}>{id}</Box> */}
+                  <Box
+                    component="img"
+                    src={
+                      thumbUrl
+                        ? thumbUrl
+                        : assetType === "text"
+                        ? "/TextThumb.svg"
+                        : assetType === "image"
+                        ? "/ImageThumb.svg"
+                        : ""
+                    }
+                    sx={{
+                      objectFit: "cover",
+                      cursor: "pointer",
+                      transition: "0.2s ease",
+                      borderRadius: "8px",
+                      opacity: index === activeSlide ? "1" : "0.6",
+                      scale: index === activeSlide ? "1.03" : "1",
+                      background:
+                        "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7))", // Adjust gradient colors as needed
+                      transform:
+                        isHovered && hoveredThumb !== id
+                          ? "scale(0.98)"
+                          : "none",
+                      "&:hover": {
+                        transform: "scale(1.07)",
+                        width: "120%",
+                        boxShadow: "0px 0px 6px #00000040",
+                        zIndex: "100000",
+                        opacity: "1",
+                      },
+                      "&:active": {
+                        border: "none",
+                        transform: "none",
+                      },
+                      "&:focus": {
+                        border: "none",
+                        transform: "none",
+                      },
+                    }}
+                    className="sx-thumbnails__item"
+                  />
+                </Box>
+              )
+            )}
           </Slider>
         </Box>
         {/* Thumbs Slider Nav Button */}

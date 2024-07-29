@@ -3,6 +3,27 @@ import { ThemeOptions } from "@mui/material/styles";
 declare module "@mui/material/styles" {
   interface Theme {
     custom: {
+      palette: {
+        brand: {
+          main: string;
+          secondary: string;
+          dark: string;
+        };
+        dark: {
+          default: string;
+        };
+        light: {
+          default: string;
+        };
+        grey: {
+          default: string;
+        };
+        text: {
+          light: string;
+          dark: string;
+          link: string;
+        };
+      };
       color: {
         backgroundColor: string;
       };
@@ -26,6 +47,27 @@ declare module "@mui/material/styles" {
   }
   interface ThemeOptions {
     custom: {
+      palette: {
+        brand: {
+          main: string;
+          secondary: string;
+          dark: string;
+        };
+        dark: {
+          default: string;
+        };
+        light: {
+          default: string;
+        };
+        grey: {
+          default: string;
+        };
+        text: {
+          light: string;
+          dark: string;
+          link: string;
+        };
+      };
       color: {
         backgroundColor: string;
       };

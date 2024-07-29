@@ -19,6 +19,8 @@ interface View {
   title: string;
   description: string;
   link: string;
+  thumb_url: string;
+  image_url: string;
 }
 
 interface SxAppData {

@@ -25,6 +25,8 @@ const Share = ({ isFullScreen }: { isFullScreen: boolean }) => {
       >
         <SxHeaderButton
           sx={{
+            backgroundColor: theme.custom.palette.brand.secondary,
+            color: theme.custom.palette.brand.dark,
             transition: "0.2s",
             "&:hover": {
               transform: "scale(1.1)",

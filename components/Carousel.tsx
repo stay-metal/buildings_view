@@ -88,7 +88,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
   const settings = {
     // asNavFor: thumbSliderRef.current || undefined,
     ref: mainSliderRef,
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
@@ -102,12 +102,12 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
     },
   };
 
-  const images = React.Children.map(children, (child) => {
-    if (React.isValidElement(child)) {
-      return child.props.children.props.src;
-    }
-    return null;
-  });
+  // const images = React.Children.map(children, (child) => {
+  //   if (React.isValidElement(child)) {
+  //     return child.props.children.props.src;
+  //   }
+  //   return null;
+  // });
 
   return (
     <Box width="100vw" height="100vh" overflow="hidden" position="relative">
@@ -115,8 +115,9 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
         {React.Children.map(children, (child, index) => (
           <Box
             sx={{
-              border: index === activeSlide ? "2px solid red" : "none",
               height: "100%",
+              opacity: index === activeSlide ? 1 : 0,
+              transition: "opacity 0.5s ease",
             }}
           >
             {child}

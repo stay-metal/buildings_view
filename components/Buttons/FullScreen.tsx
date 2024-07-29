@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { FullscreenRounded, FullscreenExitRounded } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
 import { SxHeaderButton } from "@/components/StyledComponents";
@@ -28,6 +27,8 @@ const FullScreen = ({
       <SxHeaderButton
         onClick={onClick}
         sx={{
+          backgroundColor: theme.custom.palette.brand.secondary,
+          color: theme.custom.palette.brand.dark,
           transition: "0.2s",
           "&:hover": {
             transform: "scale(1.1)",

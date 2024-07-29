@@ -1,23 +1,26 @@
 import { styled } from "@mui/material/styles";
-import theme from "@/styles/theme";
-import { Button, AppBar } from "@mui/material";
+import { Typography, Box } from "@mui/material";
+import { motion } from "framer-motion";
 
 // Content witdth and paddings
-export const SxContainer = styled("div")(
-  ({ theme }) => `
-    max-width: ${theme.custom.width.maxContentWidth}px;
-    width: 100%;
-    padding: ${theme.custom.spacing.content.xl}px;
-    margin: 0 auto;
-    ${theme.breakpoints.down("xl")} {
-      max-width: 100%;
-    }
-    ${(theme.breakpoints.down("sm"), theme.breakpoints.down("md"))} {
-      max-width: 100%;
-      padding: ${theme.custom.spacing.content.sm}px;
-    }
-`
-);
+export const SxContainer = styled(Box)(({ theme }) => ({
+  maxWidth: theme.custom.width.maxContentWidth + "px",
+  width: "100%",
+  padding: theme.custom.spacing.content.xl + "px",
+  margin: " 0 auto",
+  fontWeight: "700",
+  [theme.breakpoints.down("xl")]: {
+    maxWidth: "100%",
+  },
+  [theme.breakpoints.down("md")]: {
+    maxWidth: "100%",
+    padding: theme.custom.spacing.content.sm + "px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "100%",
+    padding: theme.custom.spacing.content.sm + "px",
+  },
+}));
 
 // Header buttons style
 export const SxHeaderButton = styled("button")(
@@ -93,3 +96,63 @@ export const SxThumbnailsWrapper = styled("div")(
         }
 `
 );
+
+/* Main Slider */
+
+/* Slide Container */
+export const SxSlideContainer = styled("div")(
+  ({ theme }) => `
+    height: 100vh;
+    width: 100%;
+    margin: 0 auto;
+`
+);
+
+/* Text Slide */
+
+export const SxTextSliderTitle = styled(Typography)(
+  ({ theme }, textColor = "") => ({
+    color: textColor ? textColor : theme.custom.palette.text.light,
+    fontSize: 48,
+    fontFamily: "Roboto",
+    fontWeight: "700",
+  })
+);
+
+export const SxTextSliderDescription = styled(Typography)(
+  ({ theme }, textColor = "") => ({
+    color: textColor ? textColor : theme.custom.palette.text.light,
+    fontSize: 29,
+    fontWeight: "400",
+  })
+);
+
+interface SxExternalLinkProps {
+  textColor?: string;
+}
+
+export const SxExternalLink = styled(Typography)<SxExternalLinkProps>(
+  ({ theme, textColor }) => ({
+    color: textColor ? textColor : theme.custom.palette.text.link,
+    fontSize: 24,
+    fontWeight: "400",
+  })
+);
+
+// Animation
+
+export const LinkUnderline = styled(motion.div)`
+  position: relaitve;
+  left: 0;
+  bottom: 4px;
+  height: 3px;
+  background-color: currentColor;
+  width: 100%;
+  transform-origin: right;
+`;
+
+export const LinkUnderlineMotionTypography = styled(motion(Typography))`
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+`;
