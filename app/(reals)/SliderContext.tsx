@@ -12,8 +12,10 @@ interface SliderContextProps {
   thumbSliderRef: MutableRefObject<Slider | null>;
   activeSlide: number;
   prevSlide: number;
+  thumbsContainerHeight: number;
   setActiveSlide: (index: number) => void;
   setPrevSlide: (index: number) => void;
+  setThumbsContainerHeight: (index: number) => void;
 }
 
 const SliderContext = createContext<SliderContextProps | undefined>(undefined);
@@ -27,10 +29,12 @@ export const SliderProvider: React.FC<SliderProviderProps> = ({ children }) => {
   const thumbSliderRef = useRef<Slider | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [prevSlide, setPrevSlide] = useState(0);
+  const [thumbsContainerHeight, setThumbsContainerHeight] = useState(0);
   // console.log("mainSliderRef", mainSliderRef);
   // console.log("thumbSliderRef", thumbSliderRef);
   // console.log("activeSlide", activeSlide);
   // console.log("setActiveSlide", setActiveSlide);
+  // console.log("thumbsContainerHeight", thumbsContainerHeight);
 
   return (
     <SliderContext.Provider
@@ -41,6 +45,8 @@ export const SliderProvider: React.FC<SliderProviderProps> = ({ children }) => {
         setActiveSlide,
         prevSlide,
         setPrevSlide,
+        thumbsContainerHeight,
+        setThumbsContainerHeight,
       }}
     >
       {children}

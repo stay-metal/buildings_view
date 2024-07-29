@@ -1,8 +1,10 @@
 "use client";
 import { SxAppProvider } from "./SxAppContext";
 import { Providers } from "./providers";
-import "./globals.css";
-
+import { GlobalStyles } from "@mui/material";
+// import "./globals.css";
+//TODO: Fix outline/focus-visible in slick slider
+<GlobalStyles styles={{}} />;
 export default function RootLayout({
   children,
 }: {

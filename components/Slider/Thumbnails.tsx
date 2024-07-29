@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Box } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { Box, GlobalStyles } from "@mui/material";
 import Slider from "react-slick";
 import { useMediaQuery } from "react-responsive";
 import { useSlider } from "@/app/(reals)/SliderContext";
@@ -8,17 +8,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
 import { useSxAppContext } from "@/app/SxAppContext";
-import { GlobalStyles } from "@mui/material";
 import PrevThumbArrow from "./PrevThumbArrow";
 import NextThumbArrow from "./NextThumbArrow";
-
-<GlobalStyles
-  styles={{
-    ".slick-slider": {
-      display: "none",
-    },
-  }}
-/>;
 
 // TODO: Fix width of the  thumbs container
 // TODO: Add Suspense
@@ -31,11 +22,18 @@ export default function Thumbnails({
   // Define how much slides to show on different screens
   const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
   const slidesToShow = isMobile ? 3 : 5;
+  const thumbsContainerRef = useRef<HTMLDivElement | null>(null);
+
+  // Use the ResizeObserver hook
+  // useResizeObserver((entry) => {
+  //   setThumbsContainerHeight(entry.contentRect.height);
+  //   console.log("Thumbs container height:", thumbsContainerHeight);
+  // }, thumbsContainerRef);
 
   // TODO: Change when adding API data fetch
-  const thumbsData = [];
   const { data } = useSxAppContext(); // get Data from API
   const { views } = data; // get all slides
+  const hoverScale = 1.2;
 
   // Slider proprs for sync with main slider
   const {
@@ -45,10 +43,24 @@ export default function Thumbnails({
     setActiveSlide,
     prevSlide,
     setPrevSlide,
+    thumbsContainerHeight,
+    setThumbsContainerHeight,
   } = useSlider();
 
+  const [isContainerHovered, setIsContainerHovered] = useState(false); // To catch Thumb Container hover event
   const [isHovered, setIsHovered] = useState(false); // To catch Thumb hover event
   const [hoveredThumb, setHoveredThumb] = useState(-1); // To catch hoverd Thumb Id
+
+  // Caclulate Thumbs Container Height and pass it to variable
+  useEffect(() => {
+    if (isContainerHovered) {
+      setThumbsContainerHeight(
+        thumbsContainerRef.current?.clientHeight * hoverScale
+      );
+    } else {
+      setThumbsContainerHeight(thumbsContainerRef.current?.clientHeight);
+    }
+  }, [isContainerHovered]);
 
   // Effect to trigger scroll event when user is on first/last thumb in a row
   useEffect(() => {
@@ -136,8 +148,17 @@ export default function Thumbnails({
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.2 }}
     >
+      <GlobalStyles
+        styles={{
+          ".sx-thumbnails__container *:focus-visible": {
+            outline: "none",
+          },
+        }}
+      />
       {/* Thumbs Slider Wrapper styles */}
       <Box
+        className="sx-thumbnails__container"
+        ref={thumbsContainerRef}
         sx={{
           display: "flex",
           gap: "25px",
@@ -147,7 +168,7 @@ export default function Thumbnails({
           marginRight: "auto",
           transition: "0.2s ease",
           "&:hover": {
-            transform: "scale(1.15)",
+            transform: "scale(" + hoverScale + ")",
           },
           [(theme.breakpoints.down("sm"),
           theme.breakpoints.down("md"),
@@ -160,6 +181,12 @@ export default function Thumbnails({
             gap: "10px",
           },
           opacity: !isFullScreen ? "1" : "0",
+        }}
+        onMouseEnter={() => {
+          setIsContainerHovered(true);
+        }}
+        onMouseLeave={() => {
+          setIsContainerHovered(false);
         }}
       >
         {/* Thumbs Slider Nav Button */}

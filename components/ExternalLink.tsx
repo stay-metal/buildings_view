@@ -11,30 +11,44 @@ const MotionBox = motion(Box);
 
 interface ExternalLinkProps {
   children: React.ReactNode;
-  url: string;
+  href: string;
   color?: string;
+  variant?: "text" | "caption" | null;
 }
 const ShakeIcon = motion(InsertLink);
 
 export default function ExternalLink({
   children,
-  url,
+  href,
   color,
+  variant,
 }: ExternalLinkProps) {
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer">
-      <MotionBox
-        display={"flex"}
-        gap={"12px"}
-        alignItems={"center"}
-        position="relative"
-        whileHover="hover"
-      >
-        <Box display={"flex"} gap={"12px"} alignItems={"center"}>
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      <MotionBox display={"flex"} whileHover="hover">
+        <Box
+          sx={{
+            display: "flex",
+            position: "relative",
+            alignItems: "center",
+            gap:
+              variant === "text"
+                ? "12px"
+                : variant === "caption"
+                ? "9px"
+                : "12px",
+          }}
+        >
           <InsertLink
             fontSize={"inherit"}
             sx={{
-              fontSize: "40px",
+              marginTop: "-1px",
+              fontSize:
+                variant === "text"
+                  ? "40px"
+                  : variant === "caption"
+                  ? "34px"
+                  : "40px",
               color: color ? color : theme.custom.palette.text.link,
               [theme.breakpoints.down("sm")]: {
                 fontSize: "30px",

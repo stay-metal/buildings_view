@@ -7,6 +7,7 @@ import { useSxAppContext } from "@/app/SxAppContext";
 import { ConstructionOutlined } from "@mui/icons-material";
 import Slide from "@/components/Slider/Slide";
 import TextSlide from "@/components/Slider/TextSlide";
+import ImageSlide from "@/components/Slider/ImageSlide";
 
 export default function Page() {
   const { mainSliderRef, thumbSliderRef } = useSlider();
@@ -43,14 +44,15 @@ export default function Page() {
     thumbUrl: view.thumb_url,
     imageUrl: view.image_url,
     link: view.link,
+    linkText: view.link_text,
   }));
 
   const getSlideComponent = (view: string) => {
     switch (view.assetType) {
       case "text":
         return <TextSlide view={view} />;
-      // case 'image':
-      //   return <ImageSlide view={view} />;
+      case "image":
+        return <ImageSlide view={view} />;
       // case 'video':
       //   return <VideoSlide view={view} />;
       // case '360':

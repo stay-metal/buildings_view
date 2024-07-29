@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Accordion } from "@mui/material";
 import { motion } from "framer-motion";
 
 // Content witdth and paddings
@@ -54,13 +54,13 @@ export const SxCircleButton = styled("button")(
       align-items: center;
       justify-content: center;
       border-radius: 9999px;
-      background: rgba(30, 30, 30, 0.30);
+      background: rgba(22, 35, 43, 0.70);
       color: #1E1E1E;
       font-size: 25px;
       transition: 0.2s;
       color: #F8F8F8;
             &:hover {
-        background: rgba(30, 30, 30, 0.50);
+        background: rgba(22, 35, 43, 0.90);
         transform: scale(1.15)
       }
             &:focus {
@@ -99,6 +99,30 @@ export const SxThumbnailsWrapper = styled("div")(
 
 /* Main Slider */
 
+/* Caption */
+export const SxCaptionAccordion = styled(Accordion)({
+  "& .MuiAccordionSummary-content": {
+    margin: "0px",
+  },
+});
+
+export const SxCaptionTitle = styled(Typography)(
+  ({ theme }, textColor = "") => ({
+    color: textColor ? textColor : theme.custom.palette.text.light,
+    fontSize: 31.38,
+    fontWeight: "700",
+  })
+);
+
+export const SxCaptionDescription = styled(Typography)(
+  ({ theme }, textColor = "") => ({
+    color: textColor ? textColor : theme.custom.palette.text.light,
+    fontSize: 20,
+    fontWeight: "400",
+    lineHeight: "140%",
+  })
+);
+
 /* Slide Container */
 export const SxSlideContainer = styled("div")(
   ({ theme }) => `
@@ -110,7 +134,7 @@ export const SxSlideContainer = styled("div")(
 
 /* Text Slide */
 
-export const SxTextSliderTitle = styled(Typography)(
+export const SxTextSlideTitle = styled(Typography)(
   ({ theme }, textColor = "") => ({
     color: textColor ? textColor : theme.custom.palette.text.light,
     fontSize: 48,
@@ -119,7 +143,7 @@ export const SxTextSliderTitle = styled(Typography)(
   })
 );
 
-export const SxTextSliderDescription = styled(Typography)(
+export const SxTextSlideDescription = styled(Typography)(
   ({ theme }, textColor = "") => ({
     color: textColor ? textColor : theme.custom.palette.text.light,
     fontSize: 29,

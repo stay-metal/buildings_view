@@ -1,17 +1,54 @@
 import { SxContainer, SxExternalLink } from "../StyledComponents";
 import ExternalLink from "../ExternalLink";
 import { Box } from "@mui/material";
-import {
-  SxTextSliderTitle,
-  SxTextSliderDescription,
-} from "../StyledComponents";
+import { SxTextSlideTitle, SxTextSlideDescription } from "../StyledComponents";
 import { motion } from "framer-motion";
 
 const MotionBox = motion(Box);
+const MotionDiv = motion.div;
 
+//TODO: Disable animation when change slide. Can achive this with passinf animate to params
 export default function TextSlide({ view }) {
   return (
     <>
+      {view.imageUrl && (
+        <MotionDiv
+          className="text-slide__image"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          style={{
+            position: "fixed",
+            top: 0,
+            width: "100vw",
+            height: "100vh",
+            objectFit: "cover",
+            zIndex: 0,
+          }}
+        >
+          <img
+            src={view.imageUrl}
+            alt=""
+            style={{ width: "100%", height: "100%" }}
+          />
+        </MotionDiv>
+      )}
+      {view.backgroundColor && (
+        <MotionBox
+          className="text-slide__container_bg-color"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: view.opacity ? view.opacity : 1 }}
+          transition={{ duration: 0.3 }}
+          sx={{
+            position: "fixed",
+            top: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: view.backgroundColor,
+            zIndex: 1,
+          }}
+        />
+      )}
       <SxContainer
         className="text-slide__container_content"
         sx={{
@@ -21,85 +58,53 @@ export default function TextSlide({ view }) {
           display: "flex",
           alignItems: "center",
           height: "100%",
-          zIndex: "2",
+          zIndex: 2,
+          position: "relative", // Ensure it respects z-index
         }}
       >
         <MotionBox
           width={"100%"}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
         >
           {view.title && (
-            <SxTextSliderTitle
+            <SxTextSlideTitle
               pb={"50px"}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              zIndex={2}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              sx={{ zIndex: 3 }}
             >
               {view.title}
-            </SxTextSliderTitle>
+            </SxTextSlideTitle>
           )}
           {view.description && (
-            <SxTextSliderDescription
+            <SxTextSlideDescription
               maxWidth={"814px"}
-              zIndex={2}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
               dangerouslySetInnerHTML={{ __html: view.description }}
-            ></SxTextSliderDescription>
+              sx={{ zIndex: 3 }}
+            />
           )}
-          {view.link && (
+          {view.link && view.linkText && (
             <Box paddingTop={"28px"}>
-              <ExternalLink url={view.link}>
+              <ExternalLink href={view.link} variant={"text"}>
                 <SxExternalLink
-                  zIndex={2}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
+                  transition={{ duration: 0.8, delay: 2.0 }}
+                  sx={{ zIndex: 3 }}
                 >
-                  External link
+                  {view.linkText}
                 </SxExternalLink>
               </ExternalLink>
             </Box>
           )}
         </MotionBox>
       </SxContainer>
-      {view.backgroundColor && (
-        <Box
-          className="text-slide__container_bg-color"
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            objectFit: "cover",
-            opacity: view.opacity ? view.opacity : 1,
-            backgroundColor: view.backgroundColor,
-            zIndex: 0,
-          }}
-        />
-      )}
-      {view.imageUrl && (
-        <Box
-          className="text-slide__image"
-          component="img"
-          src={view.imageUrl}
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            objectFit: "cover",
-            opacity: view.opacity ? view.opacity : 0.5,
-            zIndex: -2,
-          }}
-        />
-      )}
     </>
   );
 }

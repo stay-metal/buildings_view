@@ -19,6 +19,7 @@ interface View {
   title: string;
   description: string;
   link: string;
+  link_text: string;
   thumb_url: string;
   image_url: string;
 }
@@ -37,20 +38,15 @@ interface SxAppData {
 interface SxAppContextProps {
   data: SxAppData | null;
   setData: (data: SxAppData) => void;
+  isFullScreen: number;
+  setIsFullScreen: (index: number) => void;
 }
 
 const SxAppContext = createContext<SxAppContextProps | undefined>(undefined);
 
-export const useSxAppContext = () => {
-  const context = useContext(SxAppContext);
-  if (!context) {
-    throw new Error("useSxAppContext must be used within an SxAppProvider");
-  }
-  return context;
-};
-
 export const SxAppProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<SxAppData | null>(null);
+  const [isFullScreen, setIsFullScreen] = useState(0);
   useEffect(() => {
     setData(apiData);
   }, [apiData]);
@@ -66,8 +62,18 @@ export const SxAppProvider = ({ children }: { children: ReactNode }) => {
   // }, []);
 
   return (
-    <SxAppContext.Provider value={{ data, setData }}>
+    <SxAppContext.Provider
+      value={{ data, setData, isFullScreen, setIsFullScreen }}
+    >
       {children}
     </SxAppContext.Provider>
   );
+};
+
+export const useSxAppContext = () => {
+  const context = useContext(SxAppContext);
+  if (!context) {
+    throw new Error("useSxAppContext must be used within an SxAppProvider");
+  }
+  return context;
 };
