@@ -26,13 +26,15 @@
     "react-slick": "^0.30.2",
     "react-transition-group": "^4.4.5",
     "slick-carousel": "^1.8.1",
-    "swiper": "^11.1.4"
+    "swiper": "^11.1.4",
+    "three": "^0.167.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-slick": "^0.23.13",
+    "@types/three": "^0.167.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",

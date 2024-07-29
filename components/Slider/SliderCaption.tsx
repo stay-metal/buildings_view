@@ -12,7 +12,6 @@ import {
 } from "../StyledComponents";
 import ChevronLeftRounded from "@mui/icons-material/ChevronLeftRounded";
 import { motion } from "framer-motion";
-import { styled } from "@mui/material";
 import { useState } from "react";
 import { useSxAppContext } from "@/app/SxAppContext";
 import ExternalLink from "../ExternalLink";

@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { Typography, Box, Accordion } from "@mui/material";
+import { Typography, Box, Accordion, Button } from "@mui/material";
 import { motion } from "framer-motion";
 
 // Content witdth and paddings
@@ -99,6 +99,51 @@ export const SxThumbnailsWrapper = styled("div")(
 
 /* Main Slider */
 
+/* Slide Container */
+export const SxSlideContainer = styled("div")(
+  ({ theme }) => `
+    height: 100vh;
+    width: 100%;
+    margin: 0 auto;
+`
+);
+
+/* 360 View */
+
+export const SxCenterButton = styled("button")(
+  ({ theme }) => `
+      width: 80px;
+      height: 80px;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      background: rgba(22, 35, 43, 0.70);
+      color: #1E1E1E;
+      font-size: 25px;
+      transition: 0.2s;
+      outline: none;
+      color: #F8F8F8;
+            &:hover {
+        background: rgba(22, 35, 43, 0.90);
+        transform: scale(1.15)
+      }
+            &:focus {
+        border: none;
+        transform: none
+      }
+            &:active {
+        border: none;
+        transform: none
+      }
+    ${(theme.breakpoints.down("sm"), theme.breakpoints.down("md"))} {
+        width: 25px;
+        height: 25px;
+        font-size: 19px;
+    }
+`
+);
+
 /* Caption */
 export const SxCaptionAccordion = styled(Accordion)({
   "& .MuiAccordionSummary-content": {
@@ -121,15 +166,6 @@ export const SxCaptionDescription = styled(Typography)(
     fontWeight: "400",
     lineHeight: "140%",
   })
-);
-
-/* Slide Container */
-export const SxSlideContainer = styled("div")(
-  ({ theme }) => `
-    height: 100vh;
-    width: 100%;
-    margin: 0 auto;
-`
 );
 
 /* Text Slide */

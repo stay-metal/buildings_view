@@ -124,7 +124,11 @@ export default function ImageSlide({ view }) {
             title={view.title}
             description={view.description}
             backgroundColor={backgroundColor}
-            link={{ url: "example.org", text: "http://example.com" }}
+            link={
+              view.link && view.linkText
+                ? { url: view.link.url, text: view.linkText }
+                : null
+            }
           />
         )}
       </SxContainer>

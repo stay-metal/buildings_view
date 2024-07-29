@@ -42,7 +42,12 @@ export default function ExternalLink({
           <InsertLink
             fontSize={"inherit"}
             sx={{
-              marginTop: "-1px",
+              marginTop:
+                variant === "text"
+                  ? "-4px"
+                  : variant === "caption"
+                  ? "-1px"
+                  : "-4px",
               fontSize:
                 variant === "text"
                   ? "40px"

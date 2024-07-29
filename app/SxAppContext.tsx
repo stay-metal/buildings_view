@@ -50,10 +50,11 @@ export const SxAppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     setData(apiData);
   }, [apiData]);
-  // Fetch data from backend or initialize here
   // useEffect(() => {
   //   const fetchData = async () => {
-  //     const response = await fetch("/path-to-api");
+  //     const response = await fetch(
+  //       "https://reals.simplex3d.com/api/real/sgasdgsadgasdg/"
+  //     );
   //     const result = await response.json();
   //     setData(result);
   //   };

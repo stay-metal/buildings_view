@@ -96,6 +96,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    swipe: false,
     beforeChange: (current, next) => {
       setActiveSlide(next);
       setPrevSlide(current);
