@@ -8,7 +8,7 @@ import TextSlide from "@/components/Slider/TextSlide";
 import ImageSlide from "@/components/Slider/ImageSlide";
 import SequanceSlide from "@/components/Slider/SequanceSlide";
 import ThreeSixtySlide from "@/components/Slider/ThreeSixtySlide";
-import Backdrop from "@mui/material/Backdrop";
+import VideoSlide from "@/components/Slider/VideoSlide";
 
 export default function Page() {
   const { mainSliderRef, thumbSliderRef } = useSlider();
@@ -44,6 +44,7 @@ export default function Page() {
     description: view.description,
     thumbUrl: view.thumb_url,
     imageUrl: view.image_url,
+    videoUrl: view.video_url,
     link: view.link,
     linkText: view.link_text,
     linkColor: view.link_color,
@@ -57,10 +58,8 @@ export default function Page() {
         return <ImageSlide view={view} />;
       case "360":
         return <ThreeSixtySlide view={view} />;
-      // case 'video':
-      //   return <VideoSlide view={view} />;
-      // case '360':
-      //   return <ThreeSixtySlide view={view} />;
+      case "video":
+        return <VideoSlide view={view} />;
       case "sequance":
         return <SequanceSlide view={view} />;
       default:

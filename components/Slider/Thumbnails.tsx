@@ -243,6 +243,8 @@ export default function Thumbnails({
                         ? "/360Thumb.svg"
                         : assetType === "sequance"
                         ? "/SequanceThumb.svg"
+                        : assetType === "video"
+                        ? "/VideoThumb.svg"
                         : ""
                     }
                     sx={{

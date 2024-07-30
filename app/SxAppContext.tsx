@@ -22,7 +22,8 @@ interface View {
   link_text: string;
   link_color: string;
   thumb_url: string;
-  image_url: string | Array<String>;
+  image_url: string | Array<String> | null;
+  video_url: string | Array<String> | null;
 }
 
 interface SxAppData {

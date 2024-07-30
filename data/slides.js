@@ -1,23 +1,22 @@
 export const apiData = {
   id: "caf1b969-0ebb-4df1-84cb-538c2f954c54",
   views: [
-    // {
-    //   id: 2,
-    //   asset_name: "file1",
-    //   asset_type: "image",
-    //   fit_to_page: true,
-    //   background_color: "",
-    //   opacity: "",
-    //   blur: 5.0,
-    //   text_color: "#000000",
-    //   title: "Yennefer from Vengerberg",
-    //   description:
-    //     "Yennefer of Vengerberg, born as Janka on Belleteyn in 1173, was a sorceress who lived in Vengerberg, the capital city of Aedirn. She was Geralt of Rivia's true love and a mother figure to Ciri, whom she viewed like a daughter to the point that she did everything she could to rescue the girl and keep her from harm.",
-    //   thumb_url: "",
-    //   image_url: "/Gwent_Yennefer_2560x1600_EN.jpg",
-    //   link: "http://example.com",
-    //   link_text: "External link",
-    // },
+    {
+      id: 2,
+      asset_name: "file1",
+      asset_type: "video",
+      fit_to_page: true,
+      background_color: "",
+      opacity: "",
+      blur: 5.0,
+      text_color: "#F8F8F8",
+      title: "Yennefer from Vengerberg",
+      description:
+        "Yennefer of Vengerberg, born as Janka on Belleteyn in 1173, was a sorceress who lived in Vengerberg, the capital city of Aedirn. She was Geralt of Rivia's true love and a mother figure to Ciri, whom she viewed like a daughter to the point that she did everything she could to rescue the girl and keep her from harm.",
+      video_url: "/Sample_video.mp4",
+      link: "http://example.com",
+      link_text: "External link",
+    },
     {
       id: 2,
       asset_name: "file1",
