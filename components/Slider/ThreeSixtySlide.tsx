@@ -1,3 +1,4 @@
+import CubemapViewer from "./CubemapViewer";
 import {
   Box,
   Accordion,
@@ -10,22 +11,31 @@ import { useState, useEffect } from "react";
 import { useSlider } from "@/app/(reals)/SliderContext";
 import theme from "@/styles/theme";
 import SliderCaption from "./SliderCaption";
-import CubemapViewer from "./CubemapViewer";
 import ThreeSixtyButton from "../Buttons/ThreeSixtyButton";
 
 const MotionBox = motion(Box);
 const MotionDiv = motion.div;
 
-export default function ThreeSixtySlide({ view }) {
+interface ThreeSixtySlideProps {
+  view: {
+    imageUrl: string;
+    backgroundColor?: string;
+    opacity?: number;
+    title?: string;
+    description?: string;
+    link?: { url: string; text: string };
+  };
+}
+
+const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
   const { thumbsContainerHeight } = useSlider();
   const [heightOffset, setHeightOffset] = useState(0);
   const [isRotation, setIsRotation] = useState(false);
   const defaultHeight = 94;
-  const defaultBackgroundColor = theme.custom.palette.dark.default;
   const defaultOpacity = 0.7;
-  const basicBackgroundColor = view.backgroundColor
-    ? view.backgroundColor
-    : theme.custom.palette.dark.default;
+
+  const basicBackgroundColor =
+    view.backgroundColor || theme.custom.palette.dark.default;
   const backgroundColor = `rgba(${parseInt(
     basicBackgroundColor.slice(1, 3),
     16
@@ -34,19 +44,6 @@ export default function ThreeSixtySlide({ view }) {
     16
   )}, ${view.opacity || defaultOpacity})`;
 
-  const backgroundColor2 = `rgba(${parseInt(
-    view.backgroundColor
-      ? view.backgroundColor
-      : theme.custom.palette.dark.default.slice(1, 3),
-    16
-  )}, ${parseInt(view.backgroundColor.slice(3, 5), 16)}, ${parseInt(
-    view.backgroundColor
-      ? view.backgroundColor
-      : theme.custom.palette.dark.default.slice(5, 7),
-    16
-  )}, ${view.opacity || defaultOpacity})`;
-
-  // Get thumbs container height from context
   useEffect(() => {
     if (thumbsContainerHeight > defaultHeight) {
       setHeightOffset(thumbsContainerHeight - defaultHeight);
@@ -55,7 +52,6 @@ export default function ThreeSixtySlide({ view }) {
     }
   }, [thumbsContainerHeight]);
 
-  //   console.log("thumbsContainer", thumbsContainer);
   return (
     <>
       {view.imageUrl && (
@@ -70,7 +66,7 @@ export default function ThreeSixtySlide({ view }) {
             width: "100vw",
             height: "100vh",
             zIndex: 0,
-            overflow: "hidden", // To ensure the image covers the entire area
+            overflow: "hidden",
           }}
         >
           <Box
@@ -88,40 +84,18 @@ export default function ThreeSixtySlide({ view }) {
           <CubemapViewer cubemapPath={view.imageUrl} />
         </MotionDiv>
       )}
-
-      {/* {view.backgroundColor && (
-          <MotionBox
-            className="text-slide__container_bg-color"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: view.opacity ? view.opacity : 1 }}
-            transition={{ duration: 0.3 }}
-            sx={{
-              position: "fixed",
-              top: 0,
-              width: "100vw",
-              height: "100vh",
-              backgroundColor: view.backgroundColor,
-              zIndex: 1,
-            }}
-          />
-        )} */}
       <SxContainer
         className="text-slide__container_content"
-        onMouseDown={() => {
-          setIsRotation(true);
-        }}
-        onMouseUp={() => {
-          setIsRotation(false);
-        }}
+        onMouseDown={() => setIsRotation(true)}
+        onMouseUp={() => setIsRotation(false)}
         sx={{
-          paddingBottom: defaultHeight + 48 + "px",
-          //   marginTop: heightOffset + "px",
+          paddingBottom: `${defaultHeight + 48}px`,
           display: "flex",
           alignItems: "end",
           justifyContent: "center",
           height: "100%",
           zIndex: 2,
-          position: "relative", // Ensure it respects z-index
+          position: "relative",
           background: "transparent",
           borderRadius: "9px",
           cursor: isRotation ? "grabbing" : "grab",
@@ -143,4 +117,6 @@ export default function ThreeSixtySlide({ view }) {
       </SxContainer>
     </>
   );
-}
+};
+
+export default ThreeSixtySlide;

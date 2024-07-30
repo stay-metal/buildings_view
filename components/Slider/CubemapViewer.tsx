@@ -13,7 +13,12 @@ const CubemapViewer = ({ cubemapPath }) => {
 
     // Create scene, camera, and renderer
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      1,
+      1100
+    );
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
     mountRef.current.appendChild(renderer.domElement);
@@ -28,7 +33,11 @@ const CubemapViewer = ({ cubemapPath }) => {
     // Create sphere geometry and apply panoramic texture
     const geometry = new THREE.SphereGeometry(500, 60, 40);
     geometry.scale(-1, 1, 1); // Invert the geometry to view the inside of the sphere
-    const material = new THREE.MeshBasicMaterial({ map: texture });
+    // const material = new THREE.MeshBasicMaterial({ map: texture });
+    const material = new THREE.MeshBasicMaterial({
+      map: new THREE.TextureLoader().load(cubemapPath),
+    });
+
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 

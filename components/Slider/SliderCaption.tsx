@@ -90,22 +90,25 @@ export default function SliderCaption({
           <SxCaptionTitle> {title && title}</SxCaptionTitle>
         </AccordionSummary>
         <SxCaptionDescription sx={{ marginTop: "10px", paddingBottom: "20px" }}>
-          {description && description}
-          {link && (
-            <Box sx={{ marginTop: "30px" }}>
-              <ExternalLink href={link.url} variant={"caption"}>
-                <SxExternalLink
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 2.0 }}
-                  sx={{ fontSize: "20px" }}
-                >
-                  {link.text}
-                </SxExternalLink>
-              </ExternalLink>
-            </Box>
+          {description && (
+            <div dangerouslySetInnerHTML={{ __html: description }} />
           )}
         </SxCaptionDescription>
+
+        {link && (
+          <Box sx={{ marginTop: "30px" }}>
+            <ExternalLink href={link.url} variant={"caption"}>
+              <SxExternalLink
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 2.0 }}
+                sx={{ fontSize: "20px" }}
+              >
+                {link.text}
+              </SxExternalLink>
+            </ExternalLink>
+          </Box>
+        )}
       </SxCaptionAccordion>
     </MotionBox>
   );

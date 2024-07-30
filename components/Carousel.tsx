@@ -1,16 +1,13 @@
 "use client";
-import React, { ReactNode, useState } from "react";
-import { Box, IconButton, Grid, Button } from "@mui/material";
+import React from "react";
+import { Box, IconButton } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaArrowLeft,
-  FaArrowRight,
-} from "react-icons/fa";
+import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
+import ChevronRightRounded from "@mui/icons-material/ChevronRightRounded";
 import { useSlider } from "@/app/(reals)/SliderContext";
+import theme from "@/styles/theme";
 
 const NextArrow = (props: any) => {
   const { onClick } = props;
@@ -24,6 +21,7 @@ const NextArrow = (props: any) => {
         right: 0,
         top: "50%",
         transform: "translateY(-50%)",
+        color: theme.custom.palette.dark.default,
         zIndex: 1,
         transition: "0.2s ease",
         backgroundColor: "transparent",
@@ -35,7 +33,19 @@ const NextArrow = (props: any) => {
         "&:active": { opacity: 0.8 },
       }}
     >
-      <FaChevronRight />
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "10px",
+          borderRadius: "99999px",
+          backgroundColor: "rgba(217, 248, 227, 0.7)",
+          border: "1px solid  rgba(217, 248, 227)",
+        }}
+      >
+        <ChevronRightRounded sx={{ fontSize: "45px" }} />
+      </Box>
     </IconButton>
   );
 };
@@ -52,6 +62,7 @@ const PrevArrow = (props: any) => {
         left: 0,
         top: "50%",
         transform: "translateY(-50%)",
+        color: theme.custom.palette.brand.dark,
         transition: "0.2s ease",
         zIndex: 1,
         backgroundColor: "transparent",
@@ -64,7 +75,19 @@ const PrevArrow = (props: any) => {
         "&:active": { opacity: 0.8 },
       }}
     >
-      <FaChevronLeft />
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "10px",
+          borderRadius: "99999px",
+          backgroundColor: "rgba(217, 248, 227, 0.7)",
+          border: "1px solid  rgba(217, 248, 227)",
+        }}
+      >
+        <ChevronLeftRoundedIcon sx={{ fontSize: "45px" }} />
+      </Box>
     </IconButton>
   );
 };
@@ -76,14 +99,8 @@ interface CarouselProps {
 }
 
 const Carousel: React.FC<CarouselProps> = ({ children }) => {
-  const {
-    mainSliderRef,
-    thumbSliderRef,
-    activeSlide,
-    setActiveSlide,
-    prevSlide,
-    setPrevSlide,
-  } = useSlider();
+  const { mainSliderRef, activeSlide, setActiveSlide, setPrevSlide } =
+    useSlider();
 
   const settings = {
     // asNavFor: thumbSliderRef.current || undefined,
