@@ -1,7 +1,11 @@
 import { Box } from "@mui/material";
 import { motion } from "framer-motion";
 import { useSxAppContext } from "@/app/SxAppContext";
-import { PlayArrowRounded, PauseRounded } from "@mui/icons-material"; // Import PauseRounded
+import {
+  PlayArrowRounded,
+  PauseRounded,
+  SkipPreviousRounded,
+} from "@mui/icons-material"; // Import SkipPreviousRounded
 
 const MotionBox = motion(Box);
 
@@ -12,7 +16,8 @@ interface VideoBarProps {
   isActive: boolean;
   onPlayPause: () => void;
   progress: number;
-  playing: boolean; // Add this prop
+  playing: boolean;
+  ended: boolean; // Add ended prop
 }
 
 export default function VideoBar({
@@ -22,7 +27,8 @@ export default function VideoBar({
   isActive,
   onPlayPause,
   progress,
-  playing, // Add this prop
+  playing,
+  ended, // Add ended prop
 }: VideoBarProps) {
   const { isFullScreen } = useSxAppContext();
   return (
@@ -32,7 +38,7 @@ export default function VideoBar({
         marginBottom: heightOffset ? heightOffset - 8 + "px" : 0,
         opacity: isFullScreen ? 0 : 1,
       }}
-      transition={{ duration: 0.15 }} // Adjust the duration as needed
+      transition={{ duration: 0.15 }}
       sx={{
         borderRadius: "9px",
         width: "641px",
@@ -54,7 +60,17 @@ export default function VideoBar({
             gap: "15px",
           }}
         >
-          {playing ? (
+          {ended ? (
+            <SkipPreviousRounded
+              sx={{
+                fontSize: "50px",
+                padding: "0px",
+                color: textColor ? textColor : "rgba(248, 248, 248, 0.9)",
+                cursor: "pointer",
+              }}
+              onClick={onPlayPause}
+            />
+          ) : playing ? (
             <PauseRounded
               sx={{
                 fontSize: "50px",
@@ -77,9 +93,8 @@ export default function VideoBar({
           )}
           <Box
             sx={{
+              marginTop: "5px",
               display: "block",
-              // flexDirection: "column",
-              // justifyContent: "flex-start",
               alignItems: "center",
               width: "100%",
               height: "10px",
@@ -89,7 +104,6 @@ export default function VideoBar({
               sx={{
                 position: "relative",
                 width: `${progress}%`,
-                // marginLeft: "60px",
                 height: "4px",
                 backgroundColor: textColor
                   ? textColor
@@ -100,11 +114,12 @@ export default function VideoBar({
             <Box
               sx={{
                 position: "relative",
-                marginTop: "-1px",
+                marginTop: "-4px",
                 width: "100%",
                 height: "4px",
                 backgroundColor: "rgba(30, 30, 30, 1)",
                 transition: "width 0.1s ease-in-out",
+                zIndex: "-1",
               }}
             />
           </Box>
