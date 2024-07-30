@@ -1,107 +1,93 @@
 import React, { useRef, useEffect } from "react";
-import * as THREE from "three";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { TextureLoader, Vector2, BackSide, Mesh } from "three";
+import { useLoader } from "@react-three/fiber";
 
-const CubemapViewer = ({ cubemapPath }: { cubemapPath: any }) => {
-  const mountRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-  const previousMousePosition = useRef({ x: 0, y: 0 });
-  const cameraRotation = useRef({ x: 0, y: 0 });
+type CubemapViewerProps = {
+  cubemapPath: string;
+};
+
+const Sphere = ({ texturePath }: { texturePath: string }) => {
+  const texture = useLoader(TextureLoader, texturePath);
+  const sphereRef = useRef<Mesh>(null);
+
+  const isDraggingRef = useRef(false);
+  const previousMousePosition = useRef(new Vector2());
+  const cameraRotation = useRef({ lat: 0, lon: 0 });
+
+  const handlePointerDown = (event: PointerEvent) => {
+    isDraggingRef.current = true;
+    previousMousePosition.current.set(event.clientX, event.clientY);
+  };
+
+  const handlePointerMove = (event: PointerEvent) => {
+    if (!isDraggingRef.current) {
+      return;
+    }
+
+    const deltaX = event.clientX - previousMousePosition.current.x;
+    const deltaY = event.clientY - previousMousePosition.current.y;
+
+    cameraRotation.current.lon -= deltaX * 0.1;
+    cameraRotation.current.lat += deltaY * 0.1;
+
+    // Clamp the latitude to prevent flipping
+    cameraRotation.current.lat = Math.max(
+      -85,
+      Math.min(85, cameraRotation.current.lat)
+    );
+
+    previousMousePosition.current.set(event.clientX, event.clientY);
+  };
+
+  const handlePointerUp = (event: PointerEvent) => {
+    isDraggingRef.current = false;
+  };
 
   useEffect(() => {
-    if (!mountRef.current) return;
+    const downListener = (event: PointerEvent) => handlePointerDown(event);
+    const moveListener = (event: PointerEvent) => handlePointerMove(event);
+    const upListener = (event: PointerEvent) => handlePointerUp(event);
 
-    const width = mountRef.current.clientWidth;
-    const height = mountRef.current.clientHeight;
-
-    // Create scene, camera, and renderer
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      1,
-      1100
-    );
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(width, height);
-    mountRef.current.appendChild(renderer.domElement);
-
-    // Load panoramic texture
-    const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load(cubemapPath, () => {
-      // Start animation only after the texture is loaded
-      animate();
-    });
-
-    // Create sphere geometry and apply panoramic texture
-    const geometry = new THREE.SphereGeometry(500, 60, 40);
-    geometry.scale(-1, 1, 1); // Invert the geometry to view the inside of the sphere
-    // const material = new THREE.MeshBasicMaterial({ map: texture });
-    const material = new THREE.MeshBasicMaterial({
-      map: new THREE.TextureLoader().load(cubemapPath),
-    });
-
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-
-    camera.position.set(0, 0, 0.1);
-
-    // Animation loop
-    const animate = () => {
-      requestAnimationFrame(animate);
-      camera.rotation.x = cameraRotation.current.x;
-      camera.rotation.y = cameraRotation.current.y;
-      renderer.render(scene, camera);
-    };
-
-    // Handle mouse down
-    const onMouseDown = (event: any) => {
-      isDragging.current = true;
-      previousMousePosition.current = { x: event.clientX, y: event.clientY };
-    };
-
-    // Handle mouse move
-    const onMouseMove = (event: any) => {
-      if (!isDragging.current) return;
-
-      const deltaX = event.clientX - previousMousePosition.current.x;
-      const deltaY = event.clientY - previousMousePosition.current.y;
-
-      // Update camera rotation based on mouse movement
-      cameraRotation.current.y -= deltaX * 0.005; // Left-right rotation
-      cameraRotation.current.x -= deltaY * 0.005; // Top-bottom rotation
-
-      //   Optionally, clamp the x rotation to prevent the camera from flipping upside down
-      cameraRotation.current.x = Math.max(
-        -Math.PI / 2,
-        Math.min(Math.PI / 2, cameraRotation.current.x)
-      );
-
-      previousMousePosition.current = { x: event.clientX, y: event.clientY };
-    };
-
-    // Handle mouse up
-    const onMouseUp = () => {
-      isDragging.current = false;
-    };
-
-    // Add event listeners
-    window.addEventListener("mousedown", onMouseDown);
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
-
-    // Cleanup event listeners on component unmount
+    window.addEventListener("pointerdown", downListener);
+    window.addEventListener("pointermove", moveListener);
+    window.addEventListener("pointerup", upListener);
 
     return () => {
-      if (!mountRef.current) return;
-      mountRef.current.removeChild(renderer.domElement);
+      window.removeEventListener("pointerdown", downListener);
+      window.removeEventListener("pointermove", moveListener);
+      window.removeEventListener("pointerup", upListener);
     };
-  }, [cubemapPath]);
+  }, []);
+
+  useFrame(({ camera }) => {
+    camera.rotation.order = "YXZ"; // Ensure correct rotation order
+    camera.rotation.y = cameraRotation.current.lon * (Math.PI / 180);
+    camera.rotation.x = cameraRotation.current.lat * (Math.PI / 180);
+  });
 
   return (
-    <div
-      ref={mountRef}
+    <mesh ref={sphereRef} rotation={[0, 0, 0]}>
+      <sphereGeometry args={[500, 60, 40]} />
+      <meshBasicMaterial map={texture} side={BackSide} />
+    </mesh>
+  );
+};
+
+const CubemapViewer = ({ cubemapPath }: CubemapViewerProps) => {
+  return (
+    <Canvas
+      camera={{
+        fov: 75,
+        aspect: window.innerWidth / window.innerHeight,
+        near: 1,
+        far: 1100,
+        position: [0, 0, 0], // Keep the camera at the origin
+      }}
       style={{ width: "100%", height: "100vh", cursor: "pointer" }}
-    ></div>
+    >
+      <Sphere texturePath={cubemapPath} />
+    </Canvas>
   );
 };
 
