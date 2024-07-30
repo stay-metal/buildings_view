@@ -6,6 +6,7 @@ import React, {
   ReactNode,
   useState,
 } from "react";
+import Slider from "react-slick";
 
 interface SliderContextProps {
   mainSliderRef: MutableRefObject<Slider | null>;

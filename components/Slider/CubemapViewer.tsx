@@ -1,13 +1,15 @@
 import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 
-const CubemapViewer = ({ cubemapPath }) => {
-  const mountRef = useRef(null);
+const CubemapViewer = ({ cubemapPath }: { cubemapPath: any }) => {
+  const mountRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const previousMousePosition = useRef({ x: 0, y: 0 });
   const cameraRotation = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    if (!mountRef.current) return;
+
     const width = mountRef.current.clientWidth;
     const height = mountRef.current.clientHeight;
 
@@ -52,7 +54,7 @@ const CubemapViewer = ({ cubemapPath }) => {
     };
 
     // Handle mouse down
-    const onMouseDown = (event) => {
+    const onMouseDown = (event: any) => {
       isDragging.current = true;
       previousMousePosition.current = { x: event.clientX, y: event.clientY };
     };
@@ -88,7 +90,9 @@ const CubemapViewer = ({ cubemapPath }) => {
     window.addEventListener("mouseup", onMouseUp);
 
     // Cleanup event listeners on component unmount
+
     return () => {
+      if (!mountRef.current) return;
       mountRef.current.removeChild(renderer.domElement);
     };
   }, [cubemapPath]);

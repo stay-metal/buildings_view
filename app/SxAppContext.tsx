@@ -13,7 +13,7 @@ interface View {
   asset_type: string;
   fit_to_page: boolean;
   background_color: string;
-  opacity: number;
+  opacity: string | number;
   blur: number;
   text_color: string;
   title: string;
@@ -22,7 +22,7 @@ interface View {
   link_text: string;
   link_color: string;
   thumb_url: string;
-  image_url: string;
+  image_url: string | Array<String>;
 }
 
 interface SxAppData {
@@ -33,21 +33,20 @@ interface SxAppData {
   client_name: string;
   client_email: string;
   intro_screen_text: string;
-  background_color: string;
 }
 
 interface SxAppContextProps {
   data: SxAppData | null;
   setData: (data: SxAppData) => void;
-  isFullScreen: number;
-  setIsFullScreen: (index: number) => void;
+  isFullScreen: boolean;
+  setIsFullScreen: (value: boolean) => void;
 }
 
 const SxAppContext = createContext<SxAppContextProps | undefined>(undefined);
 
 export const SxAppProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<SxAppData | null>(null);
-  const [isFullScreen, setIsFullScreen] = useState(0);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   useEffect(() => {
     setData(apiData);
   }, [apiData]);

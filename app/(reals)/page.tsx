@@ -32,7 +32,7 @@ export default function Page() {
 
   const { views } = data;
 
-  const viewsData = views.map((view) => ({
+  const viewsData = views.map((view: any) => ({
     viewId: view.id,
     assetType: view.asset_type,
     fitToPage: view.fit_to_page,
@@ -49,7 +49,7 @@ export default function Page() {
     linkColor: view.link_color,
   }));
 
-  const getSlideComponent = (view: string) => {
+  const getSlideComponent = (view: any) => {
     switch (view.assetType) {
       case "text":
         return <TextSlide view={view} />;

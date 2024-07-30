@@ -14,7 +14,7 @@ import SliderCaption from "./SliderCaption";
 const MotionBox = motion(Box);
 const MotionDiv = motion.div;
 
-export default function ImageSlide({ view }) {
+export default function ImageSlide({ view }: { view: any }) {
   const { thumbsContainerHeight } = useSlider();
   const [heightOffset, setHeightOffset] = useState(0);
   const defaultHeight = 94;

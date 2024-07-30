@@ -16,7 +16,7 @@ import SequenceButton from "../Buttons/SequenceButton";
 const MotionBox = motion(Box);
 const MotionDiv = motion.div;
 
-export default function SequanceSlide({ view }) {
+export default function SequanceSlide({ view }: { view: any }) {
   const { thumbsContainerHeight } = useSlider();
   const [heightOffset, setHeightOffset] = useState(0);
   const [isRotation, setIsRotation] = useState(false);

@@ -41,7 +41,6 @@ export default function ExternalLink({
         >
           <InsertLink
             fontSize={"inherit"}
-            fontWeigth={"600"}
             sx={{
               marginTop:
                 variant === "text"

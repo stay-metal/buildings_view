@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 
-const SequenceViewer = ({ imageSequence }) => {
+const SequenceViewer = ({ imageSequence }: { imageSequence: any }) => {
   const mountRef = useRef(null);
   const isDragging = useRef(false);
   const previousMousePosition = useRef({ x: 0 });
