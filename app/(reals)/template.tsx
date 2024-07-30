@@ -13,6 +13,7 @@ const Thumbnails = React.lazy(() => import("@/components/Slider/Thumbnails"));
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const { isFullScreen, setIsFullScreen } = useSxAppContext();
+  const [isVisible, setIsVisible] = useState(true);
   const [showThumbnails, setShowThumbnails] = useState(false);
   // const [isFullScreen, setIsFullScreen] = useState(false);
 
@@ -25,6 +26,19 @@ export default function Template({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(timer);
   }, []);
 
+  const toggleVisibility = () => {
+    if (isAnimating) return; // Prevent additional clicks during animation
+
+    setIsFullScreen(true); // Set animating state to true
+    setIsVisible((prev) => !prev); // Toggle visibility
+
+    // Set a timeout based on animation duration to reset animating state
+    setTimeout(() => {
+      setIsFullScreen(false);
+    }, 500); // Match this to the animation duration
+  };
+
+
   function handleFullScreenClick() {
     setIsFullScreen(!isFullScreen);
   }
@@ -35,6 +49,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
           <FullSreen
             onClick={handleFullScreenClick}
             isFullScreen={isFullScreen}
+            isVisible={isVisible}
           />
           <Logo />
           <Share isFullScreen={isFullScreen} />

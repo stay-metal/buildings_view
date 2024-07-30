@@ -12,10 +12,17 @@ const FullScreen = ({
   isFullScreen: boolean;
 }) => {
   const [hasMounted, setHasMounted] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
+
+  const handleClick = () => {
+    if (isAnimating) return; // Prevent clicking during animation
+    setIsAnimating(true); // Start animation tracking
+    onClick(); // Call the provided onClick handler
+  };
 
   return (
     <motion.div
@@ -25,7 +32,7 @@ const FullScreen = ({
       transition={{ duration: 0.2 }}
     >
       <SxHeaderButton
-        onClick={onClick}
+        onClick={handleClick}
         sx={{
           backgroundColor: theme.custom.palette.brand.secondary,
           color: theme.custom.palette.brand.dark,
@@ -35,7 +42,7 @@ const FullScreen = ({
           },
         }}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" onExitComplete={() => setIsAnimating(false)}>
           {isFullScreen ? (
             <motion.div
               key="exit"
