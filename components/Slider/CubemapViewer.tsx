@@ -29,7 +29,7 @@ const Sphere = ({ texturePath }: { texturePath: string }) => {
     const deltaY = event.clientY - previousMousePosition.current.y;
 
     // Invert deltaY for intuitive camera control
-    cameraRotation.current.lon -= deltaX * 0.1; // Move right when dragging right
+    cameraRotation.current.lon += deltaX * 0.1; // Move right when dragging right
     cameraRotation.current.lat += deltaY * 0.1; // Move down when dragging up
 
     // Clamp the latitude to prevent flipping
