@@ -215,6 +215,7 @@ export default function Thumbnails({
                   key={id}
                   onClick={() => handleThumbnailClick(index)}
                   sx={{
+                    borderRadius: "8px",
                     padding: "2px",
                     transition: "transform 0.3s ease",
                     transform: isHovered ? "scale(0.98)" : "none",
@@ -230,54 +231,69 @@ export default function Thumbnails({
                   }}
                 >
                   {/* <Box sx={{ position: "absolute" }}>{id}</Box> */}
-                  <Box
-                    component="img"
-                    src={
-                      thumbUrl
-                        ? thumbUrl
-                        : assetType === "text"
-                        ? "/TextThumb.svg"
-                        : assetType === "image"
-                        ? "/ImageThumb.svg"
-                        : assetType === "360"
-                        ? "/360Thumb.svg"
-                        : assetType === "sequance"
-                        ? "/SequanceThumb.svg"
-                        : assetType === "video"
-                        ? "/VideoThumb.svg"
-                        : ""
-                    }
-                    sx={{
-                      objectFit: "cover",
-                      cursor: "pointer",
-                      transition: "0.2s ease",
-                      borderRadius: "8px",
-                      opacity: index === activeSlide ? "1" : "0.6",
-                      scale: index === activeSlide ? "1.03" : "1",
-                      background:
-                        "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7))", // Adjust gradient colors as needed
-                      transform:
-                        isHovered && hoveredThumb !== id
-                          ? "scale(0.98)"
-                          : "none",
-                      "&:hover": {
-                        transform: "scale(1.07)",
-                        width: "120%",
-                        boxShadow: "0px 0px 6px #00000040",
-                        zIndex: "100000",
-                        opacity: "1",
-                      },
-                      "&:active": {
-                        border: "none",
-                        transform: "none",
-                      },
-                      "&:focus": {
-                        border: "none",
-                        transform: "none",
-                      },
-                    }}
-                    className="sx-thumbnails__item"
-                  />
+                  <Box position="relative">
+                    <Box
+                      component="img"
+                      src={
+                        thumbUrl
+                          ? thumbUrl
+                          : assetType === "text"
+                          ? "/TextThumb.svg"
+                          : assetType === "image"
+                          ? "/ImageThumb.svg"
+                          : assetType === "360"
+                          ? "/360Thumb.svg"
+                          : assetType === "sequance"
+                          ? "/SequanceThumb.svg"
+                          : assetType === "video"
+                          ? "/VideoThumb.svg"
+                          : ""
+                      }
+                      sx={{
+                        objectFit: "cover",
+                        cursor: "pointer",
+                        transition: "0.2s ease",
+                        borderRadius: "8px",
+                        opacity: index === activeSlide ? "1" : "0.6",
+                        scale: index === activeSlide ? "1.03" : "1",
+                        background:
+                          "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7))", // Adjust gradient colors as needed
+                        transform:
+                          isHovered && hoveredThumb !== id
+                            ? "scale(0.98)"
+                            : "none",
+                        "&:hover": {
+                          transform: "scale(1.07)",
+                          width: "120%",
+                          boxShadow: "0px 0px 6px #00000040",
+                          zIndex: "100000",
+                          opacity: "1",
+                        },
+                        "&:active": {
+                          border: "none",
+                          transform: "none",
+                        },
+                        "&:focus": {
+                          border: "none",
+                          transform: "none",
+                        },
+                      }}
+                      className="sx-thumbnails__item"
+                    />
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "99%",
+                        height: "99%",
+                        backgroundColor:
+                          index !== activeSlide ? "grey" : "transparent",
+                        borderRadius: "8px",
+                        zIndex: index !== activeSlide ? "-1" : "-1",
+                      }}
+                    />
+                  </Box>
                 </Box>
               )
             )}

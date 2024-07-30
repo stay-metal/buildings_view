@@ -2,6 +2,23 @@ export const apiData = {
   id: "caf1b969-0ebb-4df1-84cb-538c2f954c54",
   views: [
     {
+      id: 2124,
+      asset_name: "file1",
+      asset_type: "video",
+      fit_to_page: true,
+      background_color: "",
+      opacity: "",
+      blur: 5.0,
+      text_color: "#F8F8F8",
+      title: "Video Slide Example 1",
+      description:
+        "Yennefer of Vengerberg, born as Janka on Belleteyn in 1173, was a sorceress who lived in Vengerberg, the capital city of Aedirn. She was Geralt of Rivia's true love and a mother figure to Ciri, whom she viewed like a daughter to the point that she did everything she could to rescue the girl and keep her from harm.",
+      video_url: "/Sample_video.mp4",
+      link: "http://example.com",
+      link_text: "External link",
+      thumb_url: "/thumbs/Video.jpg",
+    },
+    {
       id: 2,
       asset_name: "file1",
       asset_type: "video",
@@ -10,12 +27,13 @@ export const apiData = {
       opacity: "",
       blur: 5.0,
       text_color: "#F8F8F8",
-      title: "Yennefer from Vengerberg",
+      title: "Video Slide Example 2",
       description:
         "Yennefer of Vengerberg, born as Janka on Belleteyn in 1173, was a sorceress who lived in Vengerberg, the capital city of Aedirn. She was Geralt of Rivia's true love and a mother figure to Ciri, whom she viewed like a daughter to the point that she did everything she could to rescue the girl and keep her from harm.",
       video_url: "/Sample_video.mp4",
       link: "http://example.com",
       link_text: "External link",
+      thumb_url: "",
     },
     {
       id: 2,
@@ -65,7 +83,7 @@ export const apiData = {
       title: "Text Slide With Image And Blur",
       description:
         "Introduction text. Reshape the city tower and it’s surrounding area.</br>Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      thumb_url: "",
+      thumb_url: "/ImagePreviewThumb.jpg",
       image_url: "/TextSlideBackground.jpg",
       link: "https://www.simplex3d.com/",
       link_text: "Simplex 3D",
@@ -83,7 +101,7 @@ export const apiData = {
       title: "Image Slide Example",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      thumb_url: "",
+      thumb_url: "/thumbs/Image.jpg",
       image_url: "/Netanya_LandUse.png",
       link: "http://example.com",
       link_text: "External link",
@@ -100,7 +118,7 @@ export const apiData = {
       title: "360 View Example",
       description:
         "Introduction text. Reshape the city tower and it’s surrounding area.</br>Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      thumb_url: "",
+      thumb_url: "/thumbs/360.jpg",
       image_url: "/Equirectangular_small.jpg",
       link: "http://example.com",
       link_text: "External link",
@@ -120,7 +138,7 @@ export const apiData = {
       //</br> comes from backend
       description:
         "Introduction text. Reshape the city tower and it’s surrounding area.</br>Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      thumb_url: "",
+      thumb_url: "/thumbs/Sequance.jpg",
       image_url: [
         "/sequence/CameraOrbit.0000.jpg",
         "/sequence/CameraOrbit.0001.jpg",
