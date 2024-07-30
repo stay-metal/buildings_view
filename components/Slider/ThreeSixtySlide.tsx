@@ -1,11 +1,8 @@
 import CubemapViewer from "./CubemapViewer";
 import {
   Box,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@mui/material";
-import { SxContainer, SxCaptionTitle } from "../StyledComponents";
+import { SxContainer } from "../StyledComponents";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useSlider } from "@/app/(reals)/SliderContext";
@@ -55,6 +52,15 @@ const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
     }
   }, [thumbsContainerHeight]);
 
+  const boxProps = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    opacity: isRotation ? '0' : '1',
+    transition: "0.08s ease",
+  };
+
   return (
     <>
       {view.imageUrl && (
@@ -73,14 +79,7 @@ const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
           }}
         >
           <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              opacity: isRotation ? 0 : 1,
-              transition: "0.08s ease",
-            }}
+            sx={boxProps}
           >
             <ThreeSixtyButton />
           </Box>
@@ -108,7 +107,7 @@ const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
           <SliderCaption
             heightOffset={heightOffset}
             title={view.title}
-            description={view.description}
+            description={view.description ?? ``}
             backgroundColor={backgroundColor}
             textColor={view.textColor ? view.textColor : ""}
             link={
