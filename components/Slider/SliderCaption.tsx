@@ -24,7 +24,8 @@ interface SliderCaptionProps {
   backgroundColor: string;
   title: string;
   description: string;
-  link: { url: string; text: string } | null;
+  textColor: string | null;
+  link: { url: string; text: string; color: string } | null;
 }
 
 export default function SliderCaption({
@@ -32,11 +33,11 @@ export default function SliderCaption({
   backgroundColor,
   title,
   description,
+  textColor,
   link,
 }: SliderCaptionProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { isFullScreen } = useSxAppContext();
-
   return (
     <MotionBox
       initial={{ marginBottom: 0, opacity: 1 }}
@@ -80,35 +81,49 @@ export default function SliderCaption({
               }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
               sx={{
-                color: "#fff",
+                color: textColor ? textColor : "#fff",
                 fontSize: "36px", // Initial size of the icon
               }}
             />
           }
           sx={{ borderRadius: "9px", padding: "0px" }}
         >
-          <SxCaptionTitle> {title && title}</SxCaptionTitle>
+          <SxCaptionTitle textColor={textColor ? textColor : ""}>
+            {" "}
+            {title && title}
+          </SxCaptionTitle>
         </AccordionSummary>
-        <SxCaptionDescription sx={{ marginTop: "10px", paddingBottom: "20px" }}>
+        <SxCaptionDescription
+          textColor={textColor ? textColor : ""}
+          sx={{ marginTop: "10px", paddingBottom: "10px" }}
+        >
           {description && (
             <div dangerouslySetInnerHTML={{ __html: description }} />
           )}
-        </SxCaptionDescription>
-
-        {link && (
-          <Box sx={{ marginTop: "30px" }}>
-            <ExternalLink href={link.url} variant={"caption"}>
-              <SxExternalLink
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 2.0 }}
-                sx={{ fontSize: "20px" }}
+          {link && (
+            <Box
+              sx={{
+                marginTop: "40px",
+              }}
+            >
+              <ExternalLink
+                href={link.url}
+                variant={"caption"}
+                color={link.color}
               >
-                {link.text}
-              </SxExternalLink>
-            </ExternalLink>
-          </Box>
-        )}
+                <SxExternalLink
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 2.0 }}
+                  textColor={link.color ? link.color : ""}
+                  sx={{ fontSize: "20px" }}
+                >
+                  {link.text}
+                </SxExternalLink>
+              </ExternalLink>
+            </Box>
+          )}
+        </SxCaptionDescription>
       </SxCaptionAccordion>
     </MotionBox>
   );

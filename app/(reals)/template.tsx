@@ -41,7 +41,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
         </Header>
         {children}
         <Footer>
-          <Suspense fallback={<CircularProgress />}>
+          <Suspense fallback={<CircularProgress sx={{ color: "#C0F3D1" }} />}>
             {showThumbnails && <Thumbnails isFullScreen={isFullScreen} />}
           </Suspense>
         </Footer>

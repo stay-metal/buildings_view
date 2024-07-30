@@ -148,19 +148,18 @@ export const SxCenterButton = styled("button")(
 export const SxCaptionAccordion = styled(Accordion)({
   "& .MuiAccordionSummary-content": {
     margin: "0px",
+    padding: "0px",
   },
 });
 
-export const SxCaptionTitle = styled(Typography)(
-  ({ theme }, textColor = "") => ({
-    color: textColor ? textColor : theme.custom.palette.text.light,
-    fontSize: 31.38,
-    fontWeight: "700",
-  })
-);
+export const SxCaptionTitle = styled(Typography)(({ theme, textColor }) => ({
+  color: textColor ? textColor : theme.custom.palette.text.light,
+  fontSize: 31.38,
+  fontWeight: "700",
+}));
 
 export const SxCaptionDescription = styled(Typography)(
-  ({ theme }, textColor = "") => ({
+  ({ theme, textColor }) => ({
     color: textColor ? textColor : theme.custom.palette.text.light,
     fontSize: 20,
     fontWeight: "400",
@@ -170,18 +169,16 @@ export const SxCaptionDescription = styled(Typography)(
 
 /* Text Slide */
 
-export const SxTextSlideTitle = styled(Typography)(
-  ({ theme }, textColor = "") => ({
-    color: textColor ? textColor : theme.custom.palette.text.light,
-    fontSize: 48,
-    fontFamily: "Roboto",
-    fontWeight: "700",
-  })
-);
+export const SxTextSlideTitle = styled(Typography)(({ theme, textColor }) => ({
+  color: textColor || theme.custom.palette.text.light,
+  fontSize: 48,
+  fontFamily: "Roboto",
+  fontWeight: "700",
+}));
 
 export const SxTextSlideDescription = styled(Typography)(
-  ({ theme }, textColor = "") => ({
-    color: textColor ? textColor : theme.custom.palette.text.light,
+  ({ theme, textColor }) => ({
+    color: textColor || theme.custom.palette.text.light,
     fontSize: 29,
     fontWeight: "400",
   })
@@ -195,7 +192,7 @@ export const SxExternalLink = styled(Typography)<SxExternalLinkProps>(
   ({ theme, textColor }) => ({
     color: textColor ? textColor : theme.custom.palette.text.link,
     fontSize: 24,
-    fontWeight: "400",
+    fontWeight: "500",
   })
 );
 

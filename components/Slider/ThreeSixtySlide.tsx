@@ -23,7 +23,10 @@ interface ThreeSixtySlideProps {
     opacity?: number;
     title?: string;
     description?: string;
-    link?: { url: string; text: string };
+    link?: string;
+    linkText?: string;
+    linkColor?: string;
+    textColor?: string;
   };
 }
 
@@ -107,9 +110,10 @@ const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
             title={view.title}
             description={view.description}
             backgroundColor={backgroundColor}
+            textColor={view.textColor ? view.textColor : ""}
             link={
-              view.link && view.link.text
-                ? { url: view.link.url, text: view.link.text }
+              view.link && view.linkText
+                ? { url: view.link, text: view.linkText, color: view.linkColor }
                 : null
             }
           />

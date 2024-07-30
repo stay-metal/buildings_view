@@ -20,8 +20,8 @@ const ShakeIcon = motion(InsertLink);
 export default function ExternalLink({
   children,
   href,
-  color,
   variant,
+  color,
 }: ExternalLinkProps) {
   return (
     <a href={href} target="_blank" rel="noopener noreferrer">
@@ -41,16 +41,17 @@ export default function ExternalLink({
         >
           <InsertLink
             fontSize={"inherit"}
+            fontWeigth={"600"}
             sx={{
               marginTop:
                 variant === "text"
-                  ? "-4px"
+                  ? "-3px"
                   : variant === "caption"
                   ? "-1px"
                   : "-4px",
               fontSize:
                 variant === "text"
-                  ? "40px"
+                  ? "36px"
                   : variant === "caption"
                   ? "34px"
                   : "40px",

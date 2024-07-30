@@ -9,6 +9,7 @@ const MotionDiv = motion.div;
 
 //TODO: Disable animation when change slide. Can achive this with passinf animate to params
 export default function TextSlide({ view }) {
+  // console.log("view", view);
   return (
     <>
       {view.imageUrl && (
@@ -24,6 +25,7 @@ export default function TextSlide({ view }) {
             height: "100vh",
             objectFit: "cover",
             zIndex: 0,
+            filter: view.blur ? "blur(" + view.blur + "px)" : "none",
           }}
         >
           <img
@@ -71,10 +73,12 @@ export default function TextSlide({ view }) {
           {view.title && (
             <SxTextSlideTitle
               pb={"50px"}
+              color={"black"}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.2 }}
               sx={{ zIndex: 3 }}
+              textColor={view.textColor ? view.textColor : ""}
             >
               {view.title}
             </SxTextSlideTitle>
@@ -87,15 +91,21 @@ export default function TextSlide({ view }) {
               transition={{ duration: 0.8, delay: 1.6 }}
               dangerouslySetInnerHTML={{ __html: view.description }}
               sx={{ zIndex: 3 }}
+              textColor={view.textColor ? view.textColor : ""}
             />
           )}
           {view.link && view.linkText && (
             <Box paddingTop={"28px"}>
-              <ExternalLink href={view.link} variant={"text"}>
+              <ExternalLink
+                href={view.link}
+                variant={"text"}
+                color={view.linkColor ? view.linkColor : ""}
+              >
                 <SxExternalLink
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 2.0 }}
+                  textColor={view.linkColor ? view.linkColor : ""}
                   sx={{ zIndex: 3 }}
                 >
                   {view.linkText}

@@ -2,14 +2,13 @@
 import { Box, CircularProgress } from "@mui/material";
 import Carousel from "@/components/Carousel";
 import { useSlider } from "./SliderContext";
-import slides from "@/data/slides";
 import { useSxAppContext } from "@/app/SxAppContext";
-import { ConstructionOutlined } from "@mui/icons-material";
 import Slide from "@/components/Slider/Slide";
 import TextSlide from "@/components/Slider/TextSlide";
 import ImageSlide from "@/components/Slider/ImageSlide";
 import SequanceSlide from "@/components/Slider/SequanceSlide";
 import ThreeSixtySlide from "@/components/Slider/ThreeSixtySlide";
+import Backdrop from "@mui/material/Backdrop";
 
 export default function Page() {
   const { mainSliderRef, thumbSliderRef } = useSlider();
@@ -26,7 +25,7 @@ export default function Page() {
           height: "100vh",
         }}
       >
-        <CircularProgress />
+        <CircularProgress sx={{ color: "#C0F3D1" }} />
       </Box>
     );
   }
@@ -47,6 +46,7 @@ export default function Page() {
     imageUrl: view.image_url,
     link: view.link,
     linkText: view.link_text,
+    linkColor: view.link_color,
   }));
 
   const getSlideComponent = (view: string) => {

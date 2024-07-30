@@ -124,9 +124,14 @@ export default function ImageSlide({ view }) {
             title={view.title}
             description={view.description}
             backgroundColor={backgroundColor}
+            textColor={view.textColor ? view.textColor : ""}
             link={
               view.link && view.linkText
-                ? { url: view.link.url, text: view.linkText }
+                ? {
+                    url: view.link,
+                    text: view.linkText,
+                    color: view.linkColor ? view.linkColor : "",
+                  }
                 : null
             }
           />

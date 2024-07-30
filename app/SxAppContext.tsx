@@ -20,6 +20,7 @@ interface View {
   description: string;
   link: string;
   link_text: string;
+  link_color: string;
   thumb_url: string;
   image_url: string;
 }

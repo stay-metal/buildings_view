@@ -131,11 +131,16 @@ export default function SequanceSlide({ view }) {
           <SliderCaption
             heightOffset={heightOffset}
             title={view.title}
-            description={view.description}
+            description={view.description ? view.description : ""}
             backgroundColor={backgroundColor}
+            textColor={view.textColor ? view.textColor : ""}
             link={
-              view.link && view.link.text
-                ? { url: view.link.url, text: view.link.text }
+              view.link && view.linkText
+                ? {
+                    url: view.link,
+                    text: view.linkText,
+                    color: view.linkColor ? view.linkColor : "",
+                  }
                 : null
             }
           />
