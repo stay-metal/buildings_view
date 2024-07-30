@@ -1,7 +1,5 @@
 import CubemapViewer from "./CubemapViewer";
-import {
-  Box,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import { SxContainer } from "../StyledComponents";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -57,8 +55,9 @@ const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    opacity: isRotation ? '0' : '1',
+    opacity: isRotation ? "0" : "1",
     transition: "0.08s ease",
+    zIndex: "10000",
   };
 
   return (
@@ -78,9 +77,7 @@ const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
             overflow: "hidden",
           }}
         >
-          <Box
-            sx={boxProps}
-          >
+          <Box sx={boxProps}>
             <ThreeSixtyButton />
           </Box>
           <CubemapViewer cubemapPath={view.imageUrl} />
