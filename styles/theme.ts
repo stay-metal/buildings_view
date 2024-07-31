@@ -39,6 +39,18 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        video: {
+          width: "auto!important",
+          height: "auto!important",
+        },
+        a: {
+          textDecoration: "none",
+        },
+        button: {
+          outline: "none",
+          border: "none",
+          cursor: "pointer",
+        },
         html: {
           margin: 0,
           padding: 0,

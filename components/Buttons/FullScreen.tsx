@@ -42,7 +42,10 @@ const FullScreen = ({
           },
         }}
       >
-        <AnimatePresence mode="wait" onExitComplete={() => setIsAnimating(false)}>
+        <AnimatePresence
+          mode="wait"
+          onExitComplete={() => setIsAnimating(false)}
+        >
           {isFullScreen ? (
             <motion.div
               key="exit"
@@ -79,7 +82,8 @@ const FullScreen = ({
               <FullscreenRounded
                 fontSize={"inherit"}
                 sx={{
-                  fontSize: "52px",
+                  fontSize: "50px",
+                  marginTop: "3px",
                   [(theme.breakpoints.down("sm"),
                   theme.breakpoints.down("md"))]: {
                     fontSize: "30px",

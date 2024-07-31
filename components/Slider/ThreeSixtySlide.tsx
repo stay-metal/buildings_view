@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { SxContainer } from "../StyledComponents";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useSlider } from "@/app/(reals)/SliderContext";
+import { useSlider } from "@/app/[id]/SliderContext";
 import theme from "@/styles/theme";
 import SliderCaption from "./SliderCaption";
 import ThreeSixtyButton from "../Buttons/ThreeSixtyButton";

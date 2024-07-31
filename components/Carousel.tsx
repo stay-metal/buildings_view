@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRounded from "@mui/icons-material/ChevronRightRounded";
-import { useSlider } from "@/app/(reals)/SliderContext";
+import { useSlider } from "@/app/[id]/SliderContext";
 import theme from "@/styles/theme";
 
 const NextArrow = (props: any) => {

@@ -3,10 +3,11 @@ import ReactPlayer from "react-player";
 import { Box } from "@mui/material";
 import { SxContainer } from "../StyledComponents";
 import { motion } from "framer-motion";
-import { useSlider } from "@/app/(reals)/SliderContext";
+import { useSlider } from "@/app/[id]/SliderContext";
 import theme from "@/styles/theme";
 import SliderCaption from "./SliderCaption";
 import VideoBar from "./VideoBar";
+import GlobalStyles from "@mui/material";
 
 const MotionBox = motion(Box);
 
@@ -82,9 +83,9 @@ const VideoSlide: React.FC<VideoSlideProps> = ({ view }) => {
   return (
     <>
       <Box
-        className={"video_box"}
+        className={"player"}
         sx={{
-          position: "fixed",
+          position: "absolute",
           width: "100vw",
           height: "100vh",
           overflow: "hidden",
@@ -92,7 +93,7 @@ const VideoSlide: React.FC<VideoSlideProps> = ({ view }) => {
         }}
       >
         <ReactPlayer
-          className={"video_player"}
+          className={"player_inner"}
           position={"relative"}
           ref={playerRef}
           url={view.videoUrl}
@@ -100,9 +101,10 @@ const VideoSlide: React.FC<VideoSlideProps> = ({ view }) => {
           controls={false} // Disable standard controls
           width="100vw"
           height="100vh"
+          mute={true}
           onDuration={handleDuration} // Capture duration
           onEnded={handleEnded} // Handle video end
-          style={{ height: "100%", width: "100%", objectFit: "contain" }}
+          style={{ height: "100%", width: "100%", objectFit: "cover" }} // Use 'cover' instead of 'contain'
           zIndex={1}
         />
       </Box>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Box, GlobalStyles } from "@mui/material";
 import Slider from "react-slick";
 import { useMediaQuery } from "react-responsive";
-import { useSlider } from "@/app/(reals)/SliderContext";
+import { useSlider } from "@/app/[id]/SliderContext";
 import theme from "@/styles/theme";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -254,7 +254,7 @@ export default function Thumbnails({
                         cursor: "pointer",
                         transition: "0.2s ease",
                         borderRadius: "8px",
-                        opacity: index === activeSlide ? "1" : "0.6",
+                        opacity: index === activeSlide ? "1" : "0.5",
                         scale: index === activeSlide ? "1.03" : "1",
                         background:
                           "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7))", // Adjust gradient colors as needed
@@ -264,18 +264,10 @@ export default function Thumbnails({
                             : "none",
                         "&:hover": {
                           transform: "scale(1.07)",
-                          width: "120%",
+                          width: "100%",
                           boxShadow: "0px 0px 6px #00000040",
                           zIndex: "100000",
                           opacity: "1",
-                        },
-                        "&:active": {
-                          border: "none",
-                          transform: "none",
-                        },
-                        "&:focus": {
-                          border: "none",
-                          transform: "none",
                         },
                       }}
                       className="sx-thumbnails__item"
@@ -288,7 +280,7 @@ export default function Thumbnails({
                         width: "99%",
                         height: "99%",
                         backgroundColor:
-                          index !== activeSlide ? "grey" : "transparent",
+                          index !== activeSlide ? "#6E8179" : "transparent",
                         borderRadius: "8px",
                         zIndex: index !== activeSlide ? "-1" : "-1",
                       }}
