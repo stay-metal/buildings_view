@@ -34,28 +34,29 @@ const PageContent: React.FC = () => {
   useEffect(() => {
     if (!id) return;
     setData(apiData);
-    // const fetchData = async () => {
-    //   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-    //   const targetUrl = `http://51.17.218.57:8000/api/real/${id}/`;
+    // console.log(apiData);
+    // debugger;
+    const fetchData = async () => {
+      const targetUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${id}/`;
 
-    //   try {
-    //     const response = await fetch(proxyUrl + targetUrl, {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Accept: "application/json",
-    //       },
-    //     });
-    //     if (!response.ok) {
-    //       throw new Error(`HTTP error! status: ${response.status}`);
-    //     }
-    //     const result = await response.json();
+      try {
+        const response = await fetch(targetUrl, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // };
-
-    // fetchData();
+    fetchData();
   }, [id]);
 
   // Timer to show loading spinner for a minimum amount of time

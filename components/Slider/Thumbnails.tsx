@@ -33,7 +33,7 @@ export default function Thumbnails({
   // TODO: Change when adding API data fetch
   const { data } = useSxAppContext(); // get Data from API
   const { views } = data; // get all slides
-  const hoverScale = 1.2;
+  const hoverScale = 1.1;
 
   // Slider proprs for sync with main slider
   const {
@@ -219,7 +219,7 @@ export default function Thumbnails({
                     borderRadius: "14px",
                     padding: "2px",
                     transition: "transform 0.3s ease",
-                    // transform: isHovered ? "scale(0.98)" : "none",
+                    transform: isContainerHovered ? "scale(1.1)" : "none",
                     // border: index === activeSlide ? "2px solid red" : "none",
                   }}
                   onMouseEnter={() => {
@@ -246,6 +246,7 @@ export default function Thumbnails({
                         width: "80px",
                         height: "80px",
                         borderRadius: "14px",
+                        opacity: 1,
 
                         // opacity: isContainerHovered ? "0" : "1",
                         transform:
@@ -279,6 +280,7 @@ export default function Thumbnails({
                           transition: "0.2s ease",
                           borderRadius: "14px",
                           opacity: index === activeSlide ? "1" : "0.6",
+                          boxShadow: "0px 0px 5px rgb(0 0 0 / 35%)",
                           // scale: index === activeSlide ? "1.07" : "1",
                           background:
                             "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7))", // Adjust gradient colors as needed
