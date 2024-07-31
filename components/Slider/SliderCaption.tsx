@@ -38,6 +38,7 @@ export default function SliderCaption({
 }: SliderCaptionProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { isFullScreen } = useSxAppContext();
+  console.log("isFullScreen!!!!", isFullScreen);
   return (
     <MotionBox
       initial={{ marginBottom: 0, opacity: 1 }}

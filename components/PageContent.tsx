@@ -16,6 +16,7 @@ import SequanceSlide from "@/components/Slider/SequanceSlide";
 import ThreeSixtySlide from "@/components/Slider/ThreeSixtySlide";
 import VideoSlide from "@/components/Slider/VideoSlide";
 import { apiData } from "@/data/slides";
+import { SxAppProvider, useSxAppContext } from "@/app/SxAppContext";
 
 const Thumbnails = React.lazy(() => import("@/components/Slider/Thumbnails"));
 
@@ -24,8 +25,8 @@ const PageContent: React.FC = () => {
   const id = pathname.split("/").pop();
 
   const { mainSliderRef, thumbSliderRef } = useSlider();
+  const { isFullScreen, setIsFullScreen } = useSxAppContext(); // Get isFullScreen from SxAppProvider
   const [data, setData] = useState<any>(null);
-  const [isFullScreen, setIsFullScreen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [showThumbnails, setShowThumbnails] = useState(false);
 
@@ -67,16 +68,7 @@ const PageContent: React.FC = () => {
   }, []);
 
   const toggleVisibility = () => {
-    // Prevent additional clicks during animation
-    if (isAnimating) return;
-
-    setIsFullScreen(true); // Set animating state to true
     setIsVisible((prev) => !prev); // Toggle visibility
-
-    // Set a timeout based on animation duration to reset animating state
-    setTimeout(() => {
-      setIsFullScreen(false);
-    }, 500); // Match this to the animation duration
   };
 
   function handleFullScreenClick() {
@@ -164,9 +156,11 @@ const PageContent: React.FC = () => {
 
 const PageWrapper: React.FC = () => {
   return (
-    <SliderProvider>
-      <PageContent />
-    </SliderProvider>
+    <SxAppProvider>
+      <SliderProvider>
+        <PageContent />
+      </SliderProvider>
+    </SxAppProvider>
   );
 };
 
