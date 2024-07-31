@@ -41,6 +41,8 @@ interface SxAppContextProps {
   setData: (data: SxAppData) => void;
   isFullScreen: boolean;
   setIsFullScreen: (value: boolean) => void;
+  hideCentralIcon: boolean;
+  setHideCentralIcon: (value: boolean) => void;
 }
 
 const SxAppContext = createContext<SxAppContextProps | undefined>(undefined);
@@ -48,6 +50,7 @@ const SxAppContext = createContext<SxAppContextProps | undefined>(undefined);
 export const SxAppProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<SxAppData | null>(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [hideCentralIcon, setHideCentralIcon] = useState(false);
   useEffect(() => {
     setData(apiData);
   }, [apiData]);
@@ -65,7 +68,14 @@ export const SxAppProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <SxAppContext.Provider
-      value={{ data, setData, isFullScreen, setIsFullScreen }}
+      value={{
+        data,
+        setData,
+        isFullScreen,
+        setIsFullScreen,
+        hideCentralIcon,
+        setHideCentralIcon,
+      }}
     >
       {children}
     </SxAppContext.Provider>

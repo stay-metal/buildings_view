@@ -31,3 +31,7 @@ Stack:
     - [ ] Fix slide bug when quickly switching slides
     - [ ] Rotation button click behavior
     - [ ] Refactor code (optional)
+    - [ ] Make border radius 14
+    - [ ] Zoom In Out
+    - [ ] Imporove loading
+    - [ ] Sound control

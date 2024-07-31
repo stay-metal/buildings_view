@@ -38,7 +38,6 @@ export default function SliderCaption({
 }: SliderCaptionProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { isFullScreen } = useSxAppContext();
-  console.log("isFullScreen!!!!", isFullScreen);
   return (
     <MotionBox
       initial={{ marginBottom: 0, opacity: 1 }}
@@ -48,13 +47,16 @@ export default function SliderCaption({
       }}
       transition={{ duration: 0.15 }} // Adjust the duration as needed
       sx={{
+        position: "relative",
         borderRadius: "9px",
         width: "641px",
         background: "transparent",
+        zIndex: "10000",
       }}
     >
       <SxCaptionAccordion
         sx={{
+          position: "relative",
           paddingTop: "22px",
           paddingBottom: "22px",
           paddingLeft: "64px",
@@ -62,6 +64,7 @@ export default function SliderCaption({
           borderRadius: "9px!important",
           backgroundColor: backgroundColor,
           boxShadow: "none!important",
+          zIndex: "10000",
         }}
       >
         <AccordionSummary

@@ -193,9 +193,10 @@ export default function Thumbnails({
         <PrevThumbArrow onClick={prev} />
         {/* Thumbs Slider Container */}
         <Box
+          className="sx-thumbnails__container-inner"
           sx={{
             display: "inline-block",
-            width: "521px",
+            width: "570px",
             alignItems: "center",
             transition: "transform 0.3s ease",
             [theme.breakpoints.down("md")]: {
@@ -215,10 +216,10 @@ export default function Thumbnails({
                   key={id}
                   onClick={() => handleThumbnailClick(index)}
                   sx={{
-                    borderRadius: "8px",
+                    borderRadius: "14px",
                     padding: "2px",
                     transition: "transform 0.3s ease",
-                    transform: isHovered ? "scale(0.98)" : "none",
+                    // transform: isHovered ? "scale(0.98)" : "none",
                     // border: index === activeSlide ? "2px solid red" : "none",
                   }}
                   onMouseEnter={() => {
@@ -231,60 +232,83 @@ export default function Thumbnails({
                   }}
                 >
                   {/* <Box sx={{ position: "absolute" }}>{id}</Box> */}
-                  <Box position="relative">
+                  <Box
+                    position="relative"
+                    sx={{ margin: "4px 8px 0px 6px", height: "77px" }}
+                  >
                     <Box
-                      component="img"
-                      src={
-                        thumbUrl
-                          ? thumbUrl
-                          : assetType === "text"
-                          ? "/TextThumb.svg"
-                          : assetType === "image"
-                          ? "/ImageThumb.svg"
-                          : assetType === "360"
-                          ? "/360Thumb.svg"
-                          : assetType === "sequance"
-                          ? "/SequanceThumb.svg"
-                          : assetType === "video"
-                          ? "/VideoThumb.svg"
-                          : ""
-                      }
                       sx={{
-                        objectFit: "cover",
-                        cursor: "pointer",
                         transition: "0.2s ease",
-                        borderRadius: "8px",
-                        opacity: index === activeSlide ? "1" : "0.5",
-                        scale: index === activeSlide ? "1.03" : "1",
-                        background:
-                          "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7))", // Adjust gradient colors as needed
+                        backgroundColor:
+                          isContainerHovered && hoveredThumb !== id
+                            ? "08151dba"
+                            : "08151dba",
+                        width: "80px",
+                        height: "80px",
+                        borderRadius: "14px",
+
+                        // opacity: isContainerHovered ? "0" : "1",
                         transform:
-                          isHovered && hoveredThumb !== id
-                            ? "scale(0.98)"
+                          isContainerHovered && hoveredThumb !== id
+                            ? "scale(0.9)"
                             : "none",
-                        "&:hover": {
-                          transform: "scale(1.07)",
-                          width: "100%",
-                          boxShadow: "0px 0px 6px #00000040",
-                          zIndex: "100000",
-                          opacity: "1",
-                        },
                       }}
-                      className="sx-thumbnails__item"
-                    />
-                    <Box
+                    >
+                      <Box
+                        component="img"
+                        src={
+                          thumbUrl
+                            ? thumbUrl
+                            : assetType === "text"
+                            ? "/TextThumb.svg"
+                            : assetType === "image"
+                            ? "/ImageThumb.svg"
+                            : assetType === "360"
+                            ? "/360Thumb.svg"
+                            : assetType === "sequance"
+                            ? "/SequanceThumb.svg"
+                            : assetType === "video"
+                            ? "/VideoThumb.svg"
+                            : ""
+                        }
+                        sx={{
+                          objectFit: "cover",
+                          cursor: "pointer",
+                          width: "80px",
+                          height: "80px",
+                          transition: "0.2s ease",
+                          borderRadius: "14px",
+                          opacity: index === activeSlide ? "1" : "0.6",
+                          // scale: index === activeSlide ? "1.07" : "1",
+                          background:
+                            "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7))", // Adjust gradient colors as needed
+                          // transform:
+                          //   isContainerHovered && hoveredThumb !== id
+                          //     ? "scale(0.9)"
+                          //     : "none",
+                          // isHovered && hoveredThumb !== id
+                          //   ? "scale(1.07)"
+                          //   : "scale(1.07)",
+                          "&:hover": {
+                            opacity: "1",
+                          },
+                        }}
+                        className="sx-thumbnails__item"
+                      />
+                    </Box>
+                    {/* <Box
                       sx={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "99%",
-                        height: "99%",
+                        position: "relative",
+                        top: -80,
+                        left: 2,
+                        width: "98%",
+                        height: "98%",
                         backgroundColor:
                           index !== activeSlide ? "#6E8179" : "transparent",
-                        borderRadius: "8px",
+                        borderRadius: "14px",
                         zIndex: index !== activeSlide ? "-1" : "-1",
                       }}
-                    />
+                    /> */}
                   </Box>
                 </Box>
               )

@@ -7,6 +7,7 @@ import { useSlider } from "@/app/[id]/SliderContext";
 import theme from "@/styles/theme";
 import SliderCaption from "./SliderCaption";
 import ThreeSixtyButton from "../Buttons/ThreeSixtyButton";
+import { useSxAppContext } from "@/app/SxAppContext";
 
 const MotionBox = motion(Box);
 const MotionDiv = motion.div;
@@ -26,6 +27,7 @@ interface ThreeSixtySlideProps {
 }
 
 const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
+  const { hideCentralIcon } = useSxAppContext();
   const { thumbsContainerHeight } = useSlider();
   const [heightOffset, setHeightOffset] = useState(0);
   const [isRotation, setIsRotation] = useState(false);
@@ -50,16 +52,6 @@ const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
     }
   }, [thumbsContainerHeight]);
 
-  const boxProps = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    opacity: isRotation ? "0" : "1",
-    transition: "0.08s ease",
-    zIndex: "10000",
-  };
-
   return (
     <>
       {view.imageUrl && (
@@ -77,17 +69,29 @@ const ThreeSixtySlide: React.FC<ThreeSixtySlideProps> = ({ view }) => {
             overflow: "hidden",
           }}
         >
-          <Box sx={boxProps}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              opacity: isRotation ? "0" : "1",
+              transition: "0.08s ease",
+              zIndex: "10000",
+            }}
+          >
             <ThreeSixtyButton />
           </Box>
           <CubemapViewer cubemapPath={view.imageUrl} />
         </MotionDiv>
       )}
       <SxContainer
-        className="text-slide__container_content"
         onMouseDown={() => setIsRotation(true)}
         onMouseUp={() => setIsRotation(false)}
+        className="text-slide__container_content"
         sx={{
+          position: "relative",
+          zIndex: "1",
           paddingBottom: `${defaultHeight + 48}px`,
           display: "flex",
           alignItems: "end",
